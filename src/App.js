@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import logo from './logo1.png';
-import backgroundImg from './bg2.jpg';
 import './App.css';
 import icon from './blacki.png';
+
 
 function Login(props) {
     const [email, setEmail] = useState('');
@@ -116,6 +116,7 @@ function App() {
     }
   
     return (
+        
       <div>
         <div className="header">
         <img src={icon} alt="Icon" className="logo-icon" />
@@ -167,6 +168,7 @@ function App() {
         {loginVisible && <Login toggle={toggleLogin} />}
         {joinNowVisible && <JoinNow toggle={toggleJoinNow} />}
       </div>
+      
     );
   }
 
