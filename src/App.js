@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import logo from './logo1.png';
 import './App.css';
 import icon from './blacki.png';
+import { Link, BrowserRouter as Router, Route, useHistory } from 'react-router-dom';
 
 
 function Login(props) {
@@ -44,13 +45,14 @@ function Login(props) {
 }
 
 function JoinNow(props) {
+    
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-
+    const history = useHistory();
     function handleJoinNow(e) {
         e.preventDefault();
-        // Code to handle joining now goes here
+        
         props.toggle();
     }
 
@@ -66,6 +68,7 @@ function JoinNow(props) {
     const isJoinNowDisabled = !isPasswordValid(password) || !arePasswordsMatched();
 
     return (
+        <Router>
         <div className="popup">
             <div className="popup-inner">
                 <h2>Join Now</h2>
@@ -94,11 +97,15 @@ function JoinNow(props) {
                     {!arePasswordsMatched() && (
                         <p>Passwords do not match.</p>
                     )}
-                    <button type="submit" disabled={isJoinNowDisabled}>Join Now</button>
+                    <Link to="/signup">
+                <button type="submit" disabled={isJoinNowDisabled}>
+                Join Now
+                </button>
+                    </Link>
                 </form>
             </div>
-        </div>
-    );
+        </div><Route path="/signup" component={signup} />
+        </Router>);
 }
 
 function App() {
@@ -122,6 +129,7 @@ function App() {
         <img src={icon} alt="Icon" className="logo-icon" />
           <nav className="navigation">
             <a href="#">About</a>
+            
             <a href="#">Services</a>
             <a href="#">Contact</a>
             <a href="#" onClick={toggleJoinNow}>
@@ -146,6 +154,7 @@ function App() {
               </div>
             </section>
           <section className="benefits-section">
+            
           <h3>Benefits of Joining</h3>
                   <ul>
                       <li>Application Tracking: Keep track of your job applications in one place.</li>
