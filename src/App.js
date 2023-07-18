@@ -2,111 +2,11 @@ import React, { useState } from 'react';
 import logo from './logo1.png';
 import './App.css';
 import icon from './blacki.png';
-import { Link, BrowserRouter as Router, Route, useHistory } from 'react-router-dom';
+import { Link, BrowserRouter as Router, Route, useHistory, useNavigate } from 'react-router-dom';
+import Login from "./components/login"
+import JoinNow from "./components/joinnow.js"
 
 
-function Login(props) {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-    function handleLogin(e) {
-        e.preventDefault();
-        // Code to handle login goes here
-        props.toggle();
-    }
-
-    function isEmailValid(email) {
-        return email.includes('@');
-    }
-
-    return (
-        <div className="popup">
-            <div className="popup-inner">
-                <h2>Login</h2>
-                <form onSubmit={handleLogin}>
-                    <label>
-                        Email Address:
-                        <input type="text" value={email} onChange={e => setEmail(e.target.value)} />
-                    </label>
-                    {!isEmailValid(email) && <p>Please enter a valid email address.</p>}
-                    <label>
-                        Password:
-                        <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
-                    </label>
-                    <button type="submit">Login</button>
-                </form>
-                <p>
-                    <a href="#">Forgot Password?</a>
-                </p>
-                <button onClick={props.toggle}>Close</button>
-            </div>
-        </div>
-    );
-}
-
-function JoinNow(props) {
-    
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const history = useHistory();
-    function handleJoinNow(e) {
-        e.preventDefault();
-        
-        props.toggle();
-    }
-
-    function isPasswordValid(password) {
-        const alphanumericRegex = /^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[!@#$%^&*])[A-Za-z0-9!@#$%^&*]+$/;
-        return alphanumericRegex.test(password);
-    }
-
-    function arePasswordsMatched() {
-        return password === confirmPassword;
-    }
-
-    const isJoinNowDisabled = !isPasswordValid(password) || !arePasswordsMatched();
-
-    return (
-        <Router>
-        <div className="popup">
-            <div className="popup-inner">
-                <h2>Join Now</h2>
-                <form onSubmit={handleJoinNow}>
-                    <label>
-                        Email Address:
-                        <input type="text" value={email} onChange={e => setEmail(e.target.value)} />
-                    </label>
-                    <label>
-                        Password:
-                        <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
-                    </label>
-                    {password && (
-                        <label>
-                            Confirm Password:
-                            <input
-                                type="password"
-                                value={confirmPassword}
-                                onChange={e => setConfirmPassword(e.target.value)}
-                            />
-                        </label>
-                    )}
-                    {!isPasswordValid(password) && (
-                        <p>Password should contain a mix of alphanumeric and special characters.</p>
-                    )}
-                    {!arePasswordsMatched() && (
-                        <p>Passwords do not match.</p>
-                    )}
-                    <Link to="/signup">
-                <button type="submit" disabled={isJoinNowDisabled}>
-                Join Now
-                </button>
-                    </Link>
-                </form>
-            </div>
-        </div><Route path="/signup" component={signup} />
-        </Router>);
-}
 
 function App() {
     const [loginVisible, setLoginVisible] = useState(false);
