@@ -1,0 +1,45 @@
+/* joinPage.css */
+.JoinNow-page {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .JoinNow-page h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .JoinNow-page form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .JoinNow-page label {
+    margin-bottom: 10px;
+  }
+  
+  .JoinNow-page input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+  }
+  
+  .JoinNow-page button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .JoinNow-page button:hover {
+    background-color: #0056b3;
+  }
+  

@@ -1,19 +1,18 @@
-.App {
-  text-align: center;
+.Home {
+    text-align: center
 }
-
-.App-logo {
+.Home-logo {
   height: 40vmin;
   pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+  .Home-logo {
+    animation: Home-logo-spin infinite 20s linear;
   }
 }
 
-.App-header {
+.Home-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -24,11 +23,11 @@
   color: white;
 }
 
-.App-link {
+.Home-link {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
+@keyframes Home-logo-spin {
   from {
     transform: rotate(0deg);
   }
@@ -87,6 +86,142 @@
 }
 
 
+.navigation .signin {
+  width: 130px;
+  height: 40px;
+  padding: 10px 20px;
+  background: #eaeaea;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.5s;
+  font-weight: 500;
+  font-size: 1em;
+  color: #555;
+}
+
+.navigation .signin:hover {
+  background: #fff;
+  color: #7a63ff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.popup {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup-inner {
+  background-color: white;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 40%;
+  z-index: 2;
+}
+
+.popup-inner h2 {
+  margin-top: 0;
+  font-size: 1.8em;
+  color: #222;
+  margin-bottom: 20px;
+}
+
+.popup-inner label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+  color: #444;
+}
+
+.popup-inner input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  font-size: 1em;
+  color: #333;
+}
+
+.popup-inner p {
+  font-size: 1em;
+  color: #888;
+  margin-bottom: 15px;
+}
+
+.popup-inner button[type="submit"],
+.popup-inner button[type="button"] {
+  background-color: #7a63ff;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1em;
+  margin-right: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  font-weight: 500;
+}
+
+.popup-inner button[type="submit"]:hover,
+.popup-inner button[type="button"]:hover {
+  background-color: #6a4bc3;
+}
+
+.popup-inner button[type="submit"] {
+  margin-top: 25px;
+}
+
+.popup-inner button[type="button"] {
+  margin-top: 25px;
+  background-color: #f44336;
+}
+
+.popup-inner button[type="button"]:hover {
+  background-color: #d32f2f;
+}
+
+.popup-inner button[type="submit"]:disabled,
+.popup-inner button[type="button"]:disabled {
+  background-color: #bfbfbf;
+  color: #ffffff;
+  cursor: not-allowed;
+}
+
+.popup-inner button.close-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1em;
+  margin-top: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  font-weight: 500;
+}
+
+.popup-inner button.close-button:hover {
+  background-color: #d32f2f;
+}
 .signup-section {
   background-color: #f9f9f9;
   padding: 50px;
@@ -183,11 +318,11 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('C:\Users\Administrator\Desktop\ss\skill-scout\src\bg2.jpg');
+  background-image: url('./bg2.jpg');
   background-size: cover;
   opacity: 0.3;
 }
 
-.content-wrapper {
+.content-wrHomeer {
   padding: 50px;
 }
