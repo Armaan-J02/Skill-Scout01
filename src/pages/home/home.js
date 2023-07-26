@@ -3,7 +3,9 @@ import logo from './logo1.png';
 import icon from './blacki.png';
 import Login from '../../pages/login/login'
 import './home.css'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Link, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import JoinNow from '../joinnow/joinnow';
 
 const Home = () => {
   const [loginVisible, setLoginVisible] = useState(false);
@@ -11,7 +13,7 @@ const Home = () => {
       setLoginVisible(!loginVisible); 
     }
   return (
-    <Router>
+    
     <div>
       <div className="header">
         <img src={icon} alt="Icon" className="logo-icon" />
@@ -19,7 +21,9 @@ const Home = () => {
           <a href="#">About</a>
           <a href="#">Services</a>
           <a href="#">Contact</a>
-          <a href="#">Join now </a> 
+          <Link to="src/pages/joinnow/joinnow.js" className="signup-button">
+        Sign Up
+        </Link>
           <button className="signin" onClick={toggleLogin}>
               Login
             </button>
@@ -52,10 +56,11 @@ const Home = () => {
           <h3>User Support</h3>
           <p>Our dedicated support team is here to assist you. If you have any questions or need assistance, please don't hesitate to reach out to us.</p>
         </section>
+        
       </div>
       {loginVisible && <Login toggle={toggleLogin} />}
     </div>
-    </Router>
+    
   );
 }
 
