@@ -6,7 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/home/home'; // Make sure there's only one import statement for Home
 import JoinNow from './pages/joinnow/joinnow';
-import InfoEntry from './pages/infoentry/infoentry'
+import InfoEntry from './pages/infoentry/infoentry';
+import Feed from './pages/feed/feed';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -16,6 +17,7 @@ ReactDOM.render(
         <Route path="/home" element={<Home />} />
         <Route path="/joinnow" element={<JoinNow />} />
         <Route path="/info-entry" element={<InfoEntry />} />
+        <Route path="/feed" element={<Feed />} />
       </Routes>
     </Router>
   </React.StrictMode>,

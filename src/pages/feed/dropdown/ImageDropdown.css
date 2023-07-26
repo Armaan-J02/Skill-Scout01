@@ -1,0 +1,28 @@
+.image-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  background-color: #f5f3f3;
+  box-shadow: 8px 8px 16px 8px rgba(0, 0, 0, 0.2);
+  padding: 8px;
+}
+
+.image-dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Additional styling for the image (modify as needed) */
+.image-dropdown img {
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+}
+.posts{
+  
+}

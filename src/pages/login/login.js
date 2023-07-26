@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import './login.css';
+import { useNavigate } from 'react-router-dom';
 
 function Login(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const navigate = useNavigate();
     function handleLogin(e) {
         e.preventDefault();
         // Code to handle login goes here
         props.toggle();
+        navigate('/feed');
     }
 
     function isEmailValid(email) {

@@ -4,7 +4,6 @@ import icon from './blacki.png';
 import Login from '../../pages/login/login'
 import './home.css'
 import { Link, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Button from '@mui/material/Button';
 import JoinNow from '../joinnow/joinnow';
 
 const Home = () => {
