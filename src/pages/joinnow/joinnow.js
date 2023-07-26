@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import './joinnow.css';
 
+
 function JoinNow() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -11,6 +12,7 @@ function JoinNow() {
 
   const handleJoinNow = (e) => {
     e.preventDefault();
+    navigate('/info-entry');
     // Add your join now logic here
   };
 
