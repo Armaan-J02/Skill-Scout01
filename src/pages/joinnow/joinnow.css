@@ -1,3 +1,11 @@
+body {
+  display:flexbox;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
 .jpage {
   max-width: 400px;
   margin: 0 auto;
@@ -41,3 +49,4 @@
 .jpage button:hover {
   background-color: #0056b3;
 }
+
