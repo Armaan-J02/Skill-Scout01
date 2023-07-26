@@ -141,7 +141,11 @@ const InfoEntry = () => {
         </div>
       ))}
       <button onClick={handleAddEducation}>+</button>
+      <h3 className="heading">Resume</h3>
+      <label>Upload your Resume</label>
     </div>
+    
+
   );
 };
 
