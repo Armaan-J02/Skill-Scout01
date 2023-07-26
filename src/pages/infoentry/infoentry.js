@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import './infoentry.css';
+import { useNavigate } from 'react-router-dom';
+
 
 const InfoEntry = () => {
   const [educations, setEducations] = useState([
@@ -31,6 +33,7 @@ const InfoEntry = () => {
     'M.Com': ['Commerce', 'Accounting', 'Finance', 'Economics'],
     'Ph.D': ['Research Area 1', 'Research Area 2', 'Research Area 3'],
   };
+  const navigate = useNavigate();
 
   const handleEducationChange = (index, field, value) => {
     const updatedEducations = [...educations];
@@ -46,6 +49,29 @@ const InfoEntry = () => {
     const updatedEducations = [...educations];
     updatedEducations.splice(index, 1);
     setEducations(updatedEducations);
+  };
+  
+  const handlePreferenceChange = (e) => {
+    setPreference(e.target.value);
+  };
+  const [preference, setPreference] = useState('');
+
+  const handleSubmit = () => {
+    // Add your logic here to update the database with the form data
+    // and then redirect to the feed page.
+    navigate('/feed');
+    // This function is a placeholder and should be implemented based on your backend and routing logic.
+    console.log('Form submitted:', {
+      personalInfo: {
+        // Add personal info fields here
+      },
+      contactInfo: {
+        // Add contact info fields here
+      },
+      educationalDetails: educations,
+      resume: '', // Add the file path or any relevant data for the uploaded resume
+      preference: preference,
+    });
   };
 
   return (
@@ -141,8 +167,25 @@ const InfoEntry = () => {
         </div>
       ))}
       <button onClick={handleAddEducation}>+</button>
-      <h3 className="heading">Resume</h3>
-      <label>Upload your Resume</label>
+      <h2 className="heading">Resume</h2>
+      <label>Upload your Resume:</label>
+      <input type="file" accept=".pdf,.doc,.docx" />
+
+      <h2 className="heading">Set your Preferences!</h2>
+      <div className="preference-section">
+        <label>Preference:</label>
+        <select value={preference} onChange={handlePreferenceChange}>
+          <option value="">Select</option>
+          <option value="Internship">Internship</option>
+          <option value="Training">Training</option>
+          <option value="Job">Job</option>
+          <option value="Career Change">Career Change</option>
+        </select>
+      </div>
+
+      <div className="submit-section">
+        <button onClick={handleSubmit}>Submit</button>
+      </div>
     </div>
     
 
