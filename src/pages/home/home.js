@@ -21,9 +21,7 @@ const Home = () => {
           <a href="#">About</a>
           <a href="#">Services</a>
           <a href="#">Contact</a>
-          <Link to="src/pages/joinnow/joinnow.js" className="signup-button">
-        Sign Up
-        </Link>
+          <Link to="/joinnow">Join Now</Link>
           <button className="signin" onClick={toggleLogin}>
               Login
             </button>
