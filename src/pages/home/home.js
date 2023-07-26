@@ -4,7 +4,7 @@ import icon from './blacki.png';
 import Login from '../../pages/login/login'
 import './home.css'
 import { Link, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import JoinNow from '../joinnow/joinnow';
+
 
 const Home = () => {
   const [loginVisible, setLoginVisible] = useState(false);
