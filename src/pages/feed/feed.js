@@ -6,26 +6,13 @@ import logo from './logo1.png';
 import icon from './blacki.png';
 import LeftLine from './component/LeftLine';
 import ImageDropdown from './dropdown/ImageDropdown';
+import Feed1 from './component/FeedBasic';
 
 function Feed(props) {
-    const posts = [
-      {
-        title: 'Applications',
-        content: 'The Applications a person has applied',
-      },
-      {
-        title: 'Skills Required',
-        content: 'Skills Required Based on your Interests',
-      },
-      {
-        title: 'News',
-        content: 'News Regarding Hiring on our website and etc',
-      },
-    ];
     return (
       <div className="feed">
           <div className="header">
-            <img src={icon} alt="Icon" className="logo-icon" />
+            <img src={icon} alt="Icon" className="feed-logo" />
             <nav className="navigation">
               <a href="#">About</a> 
               <a href="#">Services</a>
@@ -33,16 +20,11 @@ function Feed(props) {
               <ImageDropdown />
             </nav>
         </div>
+        <div className='main-container'>
         <LeftLine />
-        <div className="background-image"></div>
-        <div>
-              {posts.map((post, index) => (
-                <div key={index}>
-                  <h2>{post.title}</h2>
-                  <p>{post.content}</p>
-                </div>
-              ))}
-            </div>
+        <Feed1 />
+        </div>
+        
         </div>
     );
   }

@@ -1,17 +1,13 @@
-.feed {
-    text-align: center;
-  }
-  
   .feed-logo {
-    height: 40vmin;
+    height: 90px;
     pointer-events: none;
   }
   
-  @media (prefers-reduced-motion: no-preference) {
+  /* @media (prefers-reduced-motion: no-preference) {
     .feed-logo {
-      animation: feed-logo-spin infinite 20s linear;
+      animation: feed-logo-spin infinite 10s linear;
     }
-  }
+  } */
   
   .feed-header {
     background-color: #282c34;
@@ -19,13 +15,44 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     font-size: calc(10px + 2vmin);
     color: white;
   }
   
   .feed-link {
     color: #61dafb;
+  }
+  .feed {
+    text-align: center;
+    padding-top: 60px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .main-container {
+    display: flex;
+    place-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 20px; /* Adjust the margin as needed */
+  }
+  
+  .centered-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    margin-left: 20px; /* Add some margin to separate from the left line */
+    flex: 1;
+  }
+  .feed-container {
+    color:#000;
+  }
+  
+  .post {
+    color:#888;
   }
   
   @keyframes feed-logo-spin {
@@ -59,6 +86,7 @@
     font-weight: 500;
     margin-left: 40px;
     margin-right: 10px;
+    justify-content: space-between;
     color: rgb(148, 145, 145);
     text-decoration: none;
     transition: color 0.3s ease;

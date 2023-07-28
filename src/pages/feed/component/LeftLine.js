@@ -6,13 +6,14 @@ const LeftLine = () => {
     backgroundColor: '',
     height: '100vh',
     width: '30vh',
+    marginTop: '50px',
     marginLeft: '10px',
   };
 
   const lineStyle = {
     width: '2px', // Adjust the value to set the width of the line
     backgroundColor: '#000', // Set the color of the line
-    marginRight: '20px', // Adjust the value to set the distance between the line and content
+    marginRight: '20px', // Adjust the value to set the distance between the line and content\
   };
 
   return (
@@ -31,3 +32,4 @@ const LeftLine = () => {
 };
 
 export default LeftLine;
+
