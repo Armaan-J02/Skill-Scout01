@@ -76,6 +76,13 @@ const InfoEntry = () => {
 
   return (
     <div className="info-entry">
+      <h1 className="heading">Create your Profile</h1>
+
+      <h2 className="heading">Resume</h2>
+      <label>Upload your Resume:</label>
+      <input type="file" accept=".pdf,.doc,.docx" />
+
+
       <h2 className="heading">Personal Info</h2>
       <div className="name-section">
         <label>First name:</label>
@@ -167,9 +174,6 @@ const InfoEntry = () => {
         </div>
       ))}
       <button onClick={handleAddEducation}>+</button>
-      <h2 className="heading">Resume</h2>
-      <label>Upload your Resume:</label>
-      <input type="file" accept=".pdf,.doc,.docx" />
 
       <h2 className="heading">Set your Preferences!</h2>
       <div className="preference-section">
