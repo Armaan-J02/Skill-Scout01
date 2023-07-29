@@ -17,8 +17,8 @@ const Home = () => {
     <div>
       <div className="header">
         <img src={icon} alt="Icon" className="logo-icon" />
-        <nav className="navigation">
-          <Link to="/about"> About</Link>
+          <nav className="navigation">
+          <Link to="/about">About</Link>
           <Link to="/services">Services</Link>
           <Link to="/contact">Contact</Link>
           <Link to="/joinnow">Join Now</Link>
