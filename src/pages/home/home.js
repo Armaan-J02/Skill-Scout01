@@ -4,6 +4,9 @@ import icon from './blacki.png';
 import Login from '../../pages/login/login'
 import './home.css'
 import { Link, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import about from '../about/about'
+import services from '../services/services'
+import contact from '../contact/contact'
 
 
 const Home = () => {
@@ -17,10 +20,15 @@ const Home = () => {
       <div className="header">
         <img src={icon} alt="Icon" className="logo-icon" />
         <nav className="navigation">
-          <a href="#">About</a>
-          <a href="#">Services</a>
-          <a href="#">Contact</a>
+          <Link to="/about"> About</Link>
+          <Link to="/services">Services</Link>
+          <Link to="/contact">Contact</Link>
           <Link to="/joinnow">Join Now</Link>
+          <Routes>
+            <Route path="/about" component={about} />
+            <Route path="/services" component={services} />
+            <Route path="/contact" component={contact} />
+          </Routes>
           <button className="signin" onClick={toggleLogin}>
               Login
             </button>
