@@ -7,6 +7,7 @@ import icon from './blacki.png';
 import LeftLine from './component/LeftLine';
 import ImageDropdown from './dropdown/ImageDropdown';
 import Feed1 from './component/FeedBasic';
+import { Link, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function Feed(props) {
     return (
@@ -14,11 +15,12 @@ function Feed(props) {
           <div className="header">
             <img src={icon} alt="Icon" className="feed-logo" />
             <nav className="navigation">
-              <a href="#">About</a> 
-              <a href="#">Services</a>
-              <a href="#">Contact</a>
-              <ImageDropdown />
-            </nav>
+          <Link to="/about">About</Link>
+          <Link to="/services">Services</Link>
+          <Link to="/contact">Contact</Link>
+          <Link to="/joinnow">Join Now</Link>
+          <ImageDropdown />
+        </nav>
         </div>
         <div className='main-container'>
         <LeftLine />

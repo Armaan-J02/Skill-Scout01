@@ -9,7 +9,7 @@ import JoinNow from './pages/joinnow/joinnow';
 import InfoEntry from './pages/infoentry/infoentry';
 import Feed from './pages/feed/feed';
 import Services from './pages/services/services';
-import Contact from './pages/contact_us/contact';
+import Contact from './pages/contact/contact';
 import About from './pages/about/about';
 
 ReactDOM.render(

@@ -41,10 +41,24 @@
   top: 0;
   left: 0;
   width: 90%;
-  padding: 16px 100px;
+  padding: 16px 100px ;
   background: rgb(255, 255, 255);
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  z-index: 99;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.about-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 90%;
+  padding: 16px 100px ;
+  background: rgb(255, 255, 255);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1000px;
   align-items: center;
   z-index: 99;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -319,8 +333,19 @@
   width: 100%;
   height: 100%;
   background-image: url('./bg2.jpg');
-  background-size: cover;
+  background-size: 100% 100%;
   opacity: 0.3;
+}
+.about_body {
+  margin: 0;
+  margin-top: 0;
+  padding: 100px;
+  background-image: url('bg2.jpg'); /* Replace with your image path */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  opacity: 0.8;
+  z-index: -1;
 }
 
 .content-wrHomeer {
