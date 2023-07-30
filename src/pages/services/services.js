@@ -8,7 +8,9 @@ const services = () => {
   return (
     <div className="about-page">
       <div className="about-header">
+      <Link to='/home'>
         <img src={icon} alt="Icon" className="logo-icon" />
+        </Link>
           <nav className="navigation">
           <Link to="/about" /*onClick={handleLinkClick}*/>About</Link>
           <Link to="/services">Services</Link>

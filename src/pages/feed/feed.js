@@ -13,15 +13,16 @@ function Feed(props) {
     return (
       <div className="feed">
           <div className="header">
-            <img src={icon} alt="Icon" className="feed-logo" />
+            <Link to='/home'>
+              <img src={icon} alt="Icon" className="logo-icon" />
+            </Link>
             <nav className="navigation">
-          <Link to="/about">About</Link>
-          <Link to="/services">Services</Link>
-          <Link to="/contact">Contact</Link>
-          <Link to="/joinnow">Join Now</Link>
-          <ImageDropdown />
-        </nav>
-        </div>
+              <Link to="/about">About</Link>
+              <Link to="/services">Services</Link>
+              <Link to="/contact">Contact</Link>
+              <ImageDropdown />
+            </nav>
+          </div>
         <div className='main-container'>
         <LeftLine />
         <Feed1 />
