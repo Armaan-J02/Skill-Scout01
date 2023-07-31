@@ -1,6 +1,6 @@
 import React from 'react';
 import '../home/home.css';
-import logo from './logo1.png';
+import logo from '../../pages/services/logo1.png';
 import icon from './blacki.png';
 import { Link, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
@@ -16,6 +16,7 @@ const services = () => {
           <Link to="/services">Services</Link>
           <Link to="/contact">Contact</Link>
           <Link to="/joinnow">Join Now</Link>
+          
         </nav>
       </div>
       <div className="about_body">
