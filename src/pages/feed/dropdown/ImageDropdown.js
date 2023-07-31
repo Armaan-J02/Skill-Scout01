@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './ImageDropdown.css';
+import { Link, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import dp from './dp.png';
 
 const ImageDropdown = () => {
@@ -17,6 +18,7 @@ const ImageDropdown = () => {
           <a href="#">Your Info</a>
           <a href="#">Applications</a>
           <a href="#">Preferences</a>
+          <Link to="/home">Logout</Link>
         </div>
       )}
     </div>

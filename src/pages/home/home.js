@@ -6,6 +6,7 @@ import './home.css'
 import { Link, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 
+
 const Home = () => {
   const [loginVisible, setLoginVisible] = useState(false);
     function toggleLogin() {
@@ -16,10 +17,10 @@ const Home = () => {
     <div>
       <div className="header">
         <img src={icon} alt="Icon" className="logo-icon" />
-        <nav className="navigation">
-          <a href="#">About</a>
-          <a href="#">Services</a>
-          <a href="#">Contact</a>
+          <nav className="navigation">
+          <Link to="/about">About</Link>
+          <Link to="/services">Services</Link>
+          <Link to="/contact">Contact</Link>
           <Link to="/joinnow">Join Now</Link>
           <button className="signin" onClick={toggleLogin}>
               Login
