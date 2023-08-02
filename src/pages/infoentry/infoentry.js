@@ -59,7 +59,6 @@ const InfoEntry = () => {
     setPreference(e.target.value);
   };
   const [preference, setPreference] = useState('');
-
   const [resumeFile, setResumeFile] = useState(null);
 
   const handleResumeFileChange = (event) => {
@@ -188,6 +187,7 @@ const InfoEntry = () => {
       <h2 className="heading">Set your Preferences!</h2>
       <div className="preference-section">
         <label>Preference:</label>
+        
         <select value={preference} onChange={handlePreferenceChange}>
           <option value="">Select</option>
           <option value="Internship">Internship</option>
