@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// Handle the file upload
+// Handle the file upload.
 app.post('/upload', upload.single('resume'), (req, res) => {
   // Respond with a success message
   res.json({ message: 'Resume uploaded successfully!' });
