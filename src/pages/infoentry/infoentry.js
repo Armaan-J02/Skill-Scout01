@@ -77,12 +77,26 @@ const InfoEntry = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
+ // Save the resume file to the local folder
+ const fileData = new Blob([resumeFile], { type: resumeFile.type });
+ const fileName = resumeFile.name;
+ const fileURL = URL.createObjectURL(fileData);
 
-      console.log('Resume uploaded successfully!');
-    } catch (error) {
-      console.error('Error uploading resume:', error);
-    }
-  };
+ // Create a link and click it to initiate the download
+ const downloadLink = document.createElement('a');
+ downloadLink.href = fileURL;
+ downloadLink.download = fileName;
+ document.body.appendChild(downloadLink);
+ downloadLink.click();
+ document.body.removeChild(downloadLink);
+
+ console.log('Resume uploaded successfully!');
+} catch (error) {
+ console.error('Error uploading resume:', error);
+}
+};
+
+
   return (
     <div className="info-entry">
       <h1 className="heading">Create your Profile</h1>
