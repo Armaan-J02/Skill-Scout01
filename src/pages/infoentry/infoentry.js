@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import './infoentry.css';
 import { useNavigate } from 'react-router-dom';
-
+import axios from 'axios';
 
 const InfoEntry = () => {
   const [educations, setEducations] = useState([
@@ -35,6 +35,8 @@ const InfoEntry = () => {
   };
   const navigate = useNavigate();
 
+
+
   const handleEducationChange = (index, field, value) => {
     const updatedEducations = [...educations];
     updatedEducations[index][field] = value;
@@ -51,31 +53,46 @@ const InfoEntry = () => {
     setEducations(updatedEducations);
   };
   
+  
+
   const handlePreferenceChange = (e) => {
     setPreference(e.target.value);
   };
   const [preference, setPreference] = useState('');
 
-  const handleSubmit = () => {
-    // Add your logic here to update the database with the form data
-    // and then redirect to the feed page.
-    navigate('/feed');
-    // This function is a placeholder and should be implemented based on your backend and routing logic.
-    console.log('Form submitted:', {
-      personalInfo: {
-        // Add personal info fields here
-      },
-      contactInfo: {
-        // Add contact info fields here
-      },
-      educationalDetails: educations,
-      resume: '', // Add the file path or any relevant data for the uploaded resume
-      preference: preference,
-    });
+  const [resumeFile, setResumeFile] = useState(null);
+
+  const handleResumeFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    setResumeFile(selectedFile);
   };
 
+  const handleSubmit = async () => {
+    navigate('/feed')
+    const formData = new FormData();
+    formData.append('resume', resumeFile);
+
+    try {
+      await axios.post('http://localhost:5000/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      console.log('Resume uploaded successfully!');
+    } catch (error) {
+      console.error('Error uploading resume:', error);
+    }
+  };
   return (
     <div className="info-entry">
+      <h1 className="heading">Create your Profile</h1>
+      
+      <h2 className="heading">Resume</h2>
+      <label>Upload your Resume:</label>
+      <input type="file" accept=".pdf,.doc,.docx" onChange={handleResumeFileChange} />
+
+
       <h2 className="heading">Personal Info</h2>
       <div className="name-section">
         <label>First name:</label>
@@ -167,9 +184,6 @@ const InfoEntry = () => {
         </div>
       ))}
       <button onClick={handleAddEducation}>+</button>
-      <h2 className="heading">Resume</h2>
-      <label>Upload your Resume:</label>
-      <input type="file" accept=".pdf,.doc,.docx" />
 
       <h2 className="heading">Set your Preferences!</h2>
       <div className="preference-section">
