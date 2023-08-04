@@ -4,24 +4,15 @@ import docx
 import nltk
 import spacy
 import re
+import json
 import phonenumbers
 from phonenumbers import geocoder
 from string import punctuation
 from sklearn.feature_extraction.text import TfidfVectorizer
-import json
+from skillextractor import extract_skills
+from nameextractor import extract_names
 
 nlp = spacy.load('en_core_web_sm')
-
-common_indian_names = ["Aarav", "Aryan", "Aaradhya", "Advait", "Aditi", "Ahaan", "Ahana", "Aisha", "Arya", "Avinash",
-                       "Divya", "Dhruv", "Ishaan", "Ishani", "Kabir", "Kiara", "Krish", "Krisha", "Manvi", "Mihir",
-                       "Mira", "Mohammed", "Myra", "Neha", "Neel", "Nehal", "Pranav", "Preeti", "Reyansh", "Riya",
-                       "Rohan", "Saanvi", "Samarth", "Sara", "Shanaya", "Shiv", "Siya", "Shaurya", "Tara", "Vivaan"]
-
-
-def load_skills_database(file_path):
-    with open(file_path, "r") as json_file:
-        data = json.load(json_file)
-    return data
 
 
 def preprocess_text(text):
@@ -29,21 +20,6 @@ def preprocess_text(text):
     processed_text = "".join(
         char for char in processed_text if char not in punctuation)
     return processed_text
-
-
-def extract_skills(resume_text, skills_database):
-    extracted_skills = []
-    skill_keywords = skills_database["skills"]
-    extracted_skills.extend([skill.lower() for skill in skill_keywords if re.search(
-        rf'\b{re.escape(skill)}\b', resume_text, re.IGNORECASE)])
-
-    doc = nlp(resume_text)
-    for ent in doc.ents:
-        if ent.label_ == "SKILL":
-            extracted_skills.append(ent.text.lower())
-
-    extracted_skills = list(set(extracted_skills))
-    return extracted_skills
 
 
 def extract_years_of_experience(resume_text):
@@ -100,15 +76,6 @@ def extract_education(resume_text, corpus):
     education = list(set(found_education + found_education_tfidf))
 
     return education
-
-
-def extract_names(resume_text):
-    doc = nlp(resume_text)
-    names = []
-    for ent in doc.ents:
-        if ent.label_ == "PERSON" and ent.text in common_indian_names:
-            names.append(ent.text)
-    return names
 
 
 def extract_emails(text):
@@ -170,15 +137,15 @@ def convert_files_to_text(directory_path):
     return text_data, corpus
 
 
-def process_resumes(resume_folder, output_folder, skills_database_file_path):
+def process_resumes(resume_folder, output_folder):
     resume_texts, corpus = convert_files_to_text(resume_folder)
 
-    skills_database = load_skills_database(skills_database_file_path)
+    nlp = spacy.load('en_core_web_sm')
 
     for i, resume_text in enumerate(resume_texts):
         extracted_info = {
-            "Names": extract_names(resume_text),
-            "Skills": extract_skills(resume_text, skills_database),
+            "Names":  extract_names(resume_text),
+            "Skills": extract_skills(resume_text),
             "Years of Experience": extract_years_of_experience(resume_text),
             "Education": extract_education(resume_text, corpus),
             "Emails": extract_emails(resume_text),
@@ -191,6 +158,4 @@ def process_resumes(resume_folder, output_folder, skills_database_file_path):
 
 resume_folder_path = "storage/inputresume"
 output_folder_path = "storage/outputtextresume"
-skills_database_file_path = "models/resumeparser/skills_database.json"
-process_resumes(resume_folder_path, output_folder_path,
-                skills_database_file_path)
+process_resumes(resume_folder_path, output_folder_path)
