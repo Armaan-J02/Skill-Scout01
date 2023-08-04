@@ -170,11 +170,10 @@ def save_extracted_info(output_folder, filename, data):
 
 def extract_text_from_pdf(pdf_file):
     with open(pdf_file, 'rb') as file:
-        pdf_reader = PyPDF2.PdfFileReader(file)
+        pdf_reader = PyPDF2.PdfReader(file)
         text = ""
-        for page_num in range(pdf_reader.numPages):
-            page = pdf_reader.getPage(page_num)
-            text += page.extract_text()
+        for page_num in range(len(pdf_reader.pages)):
+            text += pdf_reader.pages[page_num].extract_text()
     return text
 
 
@@ -209,6 +208,7 @@ def convert_files_to_text(directory_path):
 def process_resumes(resume_folder, output_folder, skills_database_file_path):
     resume_texts, corpus = convert_files_to_text(resume_folder)
 
+   
     # Load the skills database from the JSON file
     skills_database = load_skills_database(skills_database_file_path)
 
@@ -227,7 +227,7 @@ def process_resumes(resume_folder, output_folder, skills_database_file_path):
 
 
 # Example usage:
-resume_folder_path = "storage/inputresume"
+resume_folder_path = "storage/resume"
 output_folder_path = "storage/outputtextresume"
 skills_database_file_path = "models/resumeparser/skills_database.json"
 process_resumes(resume_folder_path, output_folder_path,
