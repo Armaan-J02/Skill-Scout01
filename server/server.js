@@ -11,7 +11,7 @@ app.use(cors());
 // Configure storage using Multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../ats/storage/resume'));
+    cb(null, path.join(__dirname, '../storage/resume')); // Save the file to 'ats/storage/resume' folder
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// Handle the file upload
+// Handle the file upload.
 app.post('/upload', upload.single('resume'), (req, res) => {
   // Respond with a success message
   res.json({ message: 'Resume uploaded successfully!' });
