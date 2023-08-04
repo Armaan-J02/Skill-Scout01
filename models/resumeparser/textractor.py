@@ -10,16 +10,12 @@ from string import punctuation
 from sklearn.feature_extraction.text import TfidfVectorizer
 import json
 
-# Load spaCy NER model
 nlp = spacy.load('en_core_web_sm')
 
-# Define your list of common Indian names
 common_indian_names = ["Aarav", "Aryan", "Aaradhya", "Advait", "Aditi", "Ahaan", "Ahana", "Aisha", "Arya", "Avinash",
                        "Divya", "Dhruv", "Ishaan", "Ishani", "Kabir", "Kiara", "Krish", "Krisha", "Manvi", "Mihir",
                        "Mira", "Mohammed", "Myra", "Neha", "Neel", "Nehal", "Pranav", "Preeti", "Reyansh", "Riya",
                        "Rohan", "Saanvi", "Samarth", "Sara", "Shanaya", "Shiv", "Siya", "Shaurya", "Tara", "Vivaan"]
-
-# Load the skills database from the JSON file
 
 
 def load_skills_database(file_path):
@@ -27,44 +23,30 @@ def load_skills_database(file_path):
         data = json.load(json_file)
     return data
 
-# Function to preprocess text (lowercase, remove punctuation, etc.)
-
 
 def preprocess_text(text):
-    # Convert to lowercase and remove punctuation
     processed_text = text.lower()
     processed_text = "".join(
         char for char in processed_text if char not in punctuation)
     return processed_text
 
-# Function to extract skills from the resume
-
 
 def extract_skills(resume_text, skills_database):
-    # Define a list to store the extracted skills
     extracted_skills = []
-
-    # Perform keyword matching to extract skills
     skill_keywords = skills_database["skills"]
     extracted_skills.extend([skill.lower() for skill in skill_keywords if re.search(
         rf'\b{re.escape(skill)}\b', resume_text, re.IGNORECASE)])
 
-    # Use spaCy for Named Entity Recognition (NER) to extract named entities related to skills
     doc = nlp(resume_text)
     for ent in doc.ents:
         if ent.label_ == "SKILL":
             extracted_skills.append(ent.text.lower())
 
-    # Perform post-processing to remove duplicates
     extracted_skills = list(set(extracted_skills))
-
     return extracted_skills
-
-# Function to extract years of experience using regex
 
 
 def extract_years_of_experience(resume_text):
-    # Define regular expressions for various ways of mentioning years of experience
     patterns = [
         r'(\d+)\s*(year|yr)s?(\s*(of\s*)?experience)?',
         r'(\d+)\s*(year|yr)s?\s*(\d+)\s*(month|mon|mn)s?(\s*(of\s*)?experience)?',
@@ -89,49 +71,35 @@ def extract_years_of_experience(resume_text):
 
     return years_of_experience
 
-# Function to extract education using keyword matching or TF-IDF
-
 
 def extract_education(resume_text, corpus):
-    # Implement the code for education extraction using keyword matching or TF-IDF
-    # For example:
     education_keywords = [
         "education", "degree", "university", "college", "school", "qualification", "academic",
         "ssc", "hsc", "matriculation", "intermediate", "bachelor", "master", "diploma", "phd",
         "btech", "mtech", "be", "me", "bcom", "mcom", "bba", "mba", "bca", "mca",
         "ug", "pg", "10th", "12th", "graduation", "post graduation", "doctorate", "board exam"
     ]
-    # Add more Indian education-related terms here...
-
     found_education = []
     for keyword in education_keywords:
         if keyword in resume_text.lower():
             found_education.append(keyword)
-
-    # TF-IDF
     preprocessed_resume = preprocess_text(resume_text)
     vectorizer = TfidfVectorizer()
     tfidf_matrix = vectorizer.fit_transform(corpus)
     resume_vector = vectorizer.transform([preprocessed_resume])
-
-    # Find the words with highest TF-IDF scores in the resume
     feature_names = vectorizer.get_feature_names_out()
     tfidf_scores = resume_vector.toarray()[0]
     sorted_tfidf_scores = sorted(
         zip(tfidf_scores, feature_names), reverse=True)
 
-    # Extract education-related words (e.g., degree, university) from the sorted TF-IDF scores
     education_keywords_tfidf = [
         "education", "degree", "university", "college", "school", "qualification", "academic"]
     found_education_tfidf = [
         word for score, word in sorted_tfidf_scores if word.lower() in education_keywords_tfidf]
 
-    # Combine both methods and remove duplicates
     education = list(set(found_education + found_education_tfidf))
 
     return education
-
-# Function to extract names using NER
 
 
 def extract_names(resume_text):
@@ -142,14 +110,10 @@ def extract_names(resume_text):
             names.append(ent.text)
     return names
 
-# Function to extract emails using regex
-
 
 def extract_emails(text):
     emails = re.findall(r'\S+@\S+', text)
     return emails
-
-# Function to extract contact numbers using phonenumbers library
 
 
 def extract_contact_numbers(text):
@@ -209,7 +173,6 @@ def convert_files_to_text(directory_path):
 def process_resumes(resume_folder, output_folder, skills_database_file_path):
     resume_texts, corpus = convert_files_to_text(resume_folder)
 
-    # Load the skills database from the JSON file
     skills_database = load_skills_database(skills_database_file_path)
 
     for i, resume_text in enumerate(resume_texts):
@@ -226,7 +189,6 @@ def process_resumes(resume_folder, output_folder, skills_database_file_path):
         save_extracted_info(output_folder, filename, extracted_info)
 
 
-# Example usage:
 resume_folder_path = "storage/inputresume"
 output_folder_path = "storage/outputtextresume"
 skills_database_file_path = "models/resumeparser/skills_database.json"
