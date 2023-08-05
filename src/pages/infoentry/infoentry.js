@@ -59,7 +59,6 @@ const InfoEntry = () => {
     setPreference(e.target.value);
   };
   const [preference, setPreference] = useState('');
-
   const [resumeFile, setResumeFile] = useState(null);
 
   const handleResumeFileChange = (event) => {
@@ -84,6 +83,22 @@ const InfoEntry = () => {
       console.error('Error uploading resume:', error);
     }
   };
+
+ // Save the resume file to the local folder
+ const fileData = new Blob([resumeFile], { type: resumeFile.type });
+ const fileName = resumeFile.name;
+ const fileURL = URL.createObjectURL(fileData);
+
+ // Create a link and click it to initiate the download
+ const downloadLink = document.createElement('a');
+ downloadLink.href = fileURL;
+ downloadLink.download = fileName;
+ document.body.appendChild(downloadLink);
+ downloadLink.click();
+ document.body.removeChild(downloadLink);
+
+
+
   return (
     <div className="info-entry">
       <h1 className="heading">Create your Profile</h1>
@@ -188,6 +203,7 @@ const InfoEntry = () => {
       <h2 className="heading">Set your Preferences!</h2>
       <div className="preference-section">
         <label>Preference:</label>
+        
         <select value={preference} onChange={handlePreferenceChange}>
           <option value="">Select</option>
           <option value="Internship">Internship</option>
