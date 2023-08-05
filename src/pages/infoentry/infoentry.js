@@ -77,6 +77,13 @@ const InfoEntry = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
+
+      console.log('Resume uploaded successfully!');
+    } catch (error) {
+      console.error('Error uploading resume:', error);
+    }
+  };
+
  // Save the resume file to the local folder
  const fileData = new Blob([resumeFile], { type: resumeFile.type });
  const fileName = resumeFile.name;
@@ -90,11 +97,6 @@ const InfoEntry = () => {
  downloadLink.click();
  document.body.removeChild(downloadLink);
 
- console.log('Resume uploaded successfully!');
-} catch (error) {
- console.error('Error uploading resume:', error);
-}
-};
 
 
   return (
