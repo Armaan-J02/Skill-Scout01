@@ -28,6 +28,8 @@ def load_skills_database(file_path):
     return data
 
 # Function to preprocess text (lowercase, remove punctuation, etc.)
+
+
 def preprocess_text(text):
     # Convert to lowercase and remove punctuation
     processed_text = text.lower()
@@ -36,6 +38,8 @@ def preprocess_text(text):
     return processed_text
 
 # Function to extract skills from the resume
+
+
 def extract_skills(resume_text, skills_database):
     # Define a list to store the extracted skills
     extracted_skills = []
@@ -139,11 +143,15 @@ def extract_names(resume_text):
     return names
 
 # Function to extract emails using regex
+
+
 def extract_emails(text):
     emails = re.findall(r'\S+@\S+', text)
     return emails
 
 # Function to extract contact numbers using phonenumbers library
+
+
 def extract_contact_numbers(text):
     contact_numbers = []
     phone_numbers = phonenumbers.PhoneNumberMatcher(text, "IN")
