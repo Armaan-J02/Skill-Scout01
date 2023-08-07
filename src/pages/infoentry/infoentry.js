@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import './infoentry.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { parseResume } from '../models/resume_parser/resumeParser'; // Import the resume parser
 
 
 
@@ -109,30 +108,31 @@ const InfoEntry = () => {
 
   const handleSubmit = async () => {
     if (!autoFilled && resumeFile) {
-      const formData = new FormData();
-      formData.append('resume', resumeFile);
-  
-      try {
+    navigate('/feed')
+    const formData = new FormData();
+    formData.append('resume', resumeFile);
+
+    try {
         const response = await axios.post('http://localhost:5000/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
-  
-        const parsedData = parseResume(response.data); // Parse the resume data
-        setParsedData(parsedData);
+
+        // Set the parsed data and mark autoFilled as true
+        setParsedData(response.data);
         setAutoFilled(true);
       } catch (error) {
         console.error('Error parsing resume:', error);
       }
-    } else {
+    }  else {
       const formDataToSave = {
         // ... (other form data)
         educations,
         preference,
         ...parsedData,
       };
-  
+
       try {
         await axios.post('http://localhost:5000/save', formDataToSave);
         navigate('/feed');
@@ -141,7 +141,7 @@ const InfoEntry = () => {
       }
     }
   };
-  
+
  // Save the resume file to the local folder
  const fileData = new Blob([resumeFile], { type: resumeFile.type });
  const fileName = resumeFile.name;
