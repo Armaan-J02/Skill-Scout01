@@ -4,8 +4,15 @@ import React, { useState } from 'react';
 import './infoentry.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { parseResume } from '../models/resume_parser/resumeParser'; // Import the resume parser
+
+
 
 const InfoEntry = () => {
+   // State variables for storing the parsed data
+   const [parsedData, setParsedData] = useState(null);
+   const [autoFilled, setAutoFilled] = useState(false);
+
   const [educations, setEducations] = useState([
     {
       education: '',
@@ -13,6 +20,7 @@ const InfoEntry = () => {
       major: '',
       gpa: '',
     },
+    
   ]);
 
   const educationOptions = ['Undergraduate', 'Postgraduate', 'Doctorate'];
@@ -100,23 +108,40 @@ const InfoEntry = () => {
   };
 
   const handleSubmit = async () => {
-    navigate('/feed')
-    const formData = new FormData();
-    formData.append('resume', resumeFile);
-
-    try {
-      await axios.post('http://localhost:5000/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      console.log('Resume uploaded successfully!');
-    } catch (error) {
-      console.error('Error uploading resume:', error);
+    if (!autoFilled && resumeFile) {
+      const formData = new FormData();
+      formData.append('resume', resumeFile);
+  
+      try {
+        const response = await axios.post('http://localhost:5000/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+  
+        const parsedData = parseResume(response.data); // Parse the resume data
+        setParsedData(parsedData);
+        setAutoFilled(true);
+      } catch (error) {
+        console.error('Error parsing resume:', error);
+      }
+    } else {
+      const formDataToSave = {
+        // ... (other form data)
+        educations,
+        preference,
+        ...parsedData,
+      };
+  
+      try {
+        await axios.post('http://localhost:5000/save', formDataToSave);
+        navigate('/feed');
+      } catch (error) {
+        console.error('Error saving data:', error);
+      }
     }
   };
-
+  
  // Save the resume file to the local folder
  const fileData = new Blob([resumeFile], { type: resumeFile.type });
  const fileName = resumeFile.name;
