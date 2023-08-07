@@ -13,23 +13,12 @@ function ParseBoy() {
 }
 
 
-/**
- *
- * @param PreparedFile
- * @param cbGetResume
- */
 ParseBoy.prototype.parseFile = function (PreparedFile, cbGetResume) {
   logger.trace('I\'m working with "' + PreparedFile.name + '" now')
   parser.parse(PreparedFile, cbGetResume);
 };
 
-/**
- *
- * @param PreparedFile
- * @param Resume
- * @param path
- * @param cbOnSaved
- */
+
 ParseBoy.prototype.storeResume = function (PreparedFile, Resume, path, cbOnSaved) {
   PreparedFile.addResume(Resume);
 
@@ -39,8 +28,5 @@ ParseBoy.prototype.storeResume = function (PreparedFile, Resume, path, cbOnSaved
   PreparedFile.saveResume(path, cbOnSaved);
 };
 
-/**
- *
- * @type {ParseBoy}
- */
+
 module.exports = ParseBoy;

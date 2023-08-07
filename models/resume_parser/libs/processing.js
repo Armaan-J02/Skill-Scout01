@@ -8,11 +8,7 @@ const path     = require('path'),
 
 module.exports.run = processFile;
 
-/**
- *
- * @param file
- * @param cbAfterProcessing
- */
+
 function processFile(file, cbAfterProcessing) {
   extractText(file, function (PreparedFile) {
     if (_.isFunction(cbAfterProcessing)) {
@@ -24,11 +20,7 @@ function processFile(file, cbAfterProcessing) {
   });
 }
 
-/**
- *
- * @param data
- * @returns {string}
- */
+
 function cleanTextByRows(data) {
   var rows,
       clearRow,
@@ -45,11 +37,6 @@ function cleanTextByRows(data) {
   return clearRows.join("\n") + "\n{end}";
 }
 
-/**
- *
- * @param file
- * @param cbAfterExtract
- */
 function extractText(file, cbAfterExtract) {
   logger.trace(file)
   textract.fromFileWithPath(file, {preserveLineBreaks: true}, function (err, data) {
@@ -66,11 +53,7 @@ function extractText(file, cbAfterExtract) {
   });
 }
 
-/**
- *
- * @param str
- * @returns {string}
- */
+
 function cleanStr(str) {
   return str.replace(/\r?\n|\r|\t|\n/g, '').trim();
 }
@@ -83,10 +66,6 @@ function PreparedFile(file, raw) {
   this.name = path.basename(file);
 }
 
-/**
- *
- * @param Resume
- */
 PreparedFile.prototype.addResume = function (Resume) {
   this.resume = Resume;
 };
