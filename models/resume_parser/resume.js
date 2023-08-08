@@ -36,10 +36,7 @@ Resume.prototype.addObject = function(key, options) {
   });
 };
 
-/**
- *
- * @returns {String}
- */
+
 Resume.prototype.jsoned = function() {
   return JSON.stringify(this.parts);
 };

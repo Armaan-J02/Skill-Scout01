@@ -2,9 +2,10 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const cors = require('cors');
-const { parseResume } = require('../models/resume_parser/'); // Import the resume parser code
+const { parse } = require('./src/libs/parser'); // Import the parser module
+const { run: processFile } = require('./src/libs/processing'); // Import the processing module
+const { Resume } = require('./src/Resume'); // Import the Resume class
 const MongoClient = require('mongodb').MongoClient;
-
 
 const app = express();
 
@@ -25,11 +26,10 @@ client.connect((err) => {
   console.log('Connected to MongoDB successfully!');
 });
 
-
 // Configure storage using Multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../storage/inputresume')); // Save the file to 'ats/storage/resume' folder
+    cb(null, path.join(__dirname, './uploads')); // Save the file to 'uploads' folder
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
@@ -41,18 +41,21 @@ const upload = multer({ storage });
 // Handle the file upload and resume parsing
 app.post('/upload', upload.single('resume'), async (req, res) => {
   try {
-    // Parse the uploaded resume
-    const parsedData = await parseResume(req.file.path);
+    // Process the uploaded resume and parse it
+    processFile(req.file.path, async (PreparedFile) => {
+      const ResumeInstance = new Resume();
+      parse(PreparedFile, (parsedResume) => {
+        // Save the parsed resume data to the database
+        const db = client.db(dbName);
+        const collection = db.collection('resumes');
+        collection.insertOne(parsedResume.parts);
 
-    // Save the parsed data to the database
-    const db = client.db(dbName);
-    const collection = db.collection('resumes');
-    await collection.insertOne(parsedData);
-
-    // Respond with the parsed data
-    res.json(parsedData);
+        // Respond with the parsed data
+        res.json(parsedResume.parts);
+      });
+    });
   } catch (error) {
-    console.error('Error parsing or saving resume:', error);
+    console.error('Error processing or saving resume:', error);
     res.status(500).json({ error: 'An error occurred while processing the resume.' });
   }
 });

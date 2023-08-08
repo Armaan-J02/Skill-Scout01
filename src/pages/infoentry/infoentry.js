@@ -115,9 +115,18 @@ const InfoEntry = () => {
         },
       });
 
-      console.log('Resume uploaded successfully!');
+      console.log('Resume uploaded successfully! Parsing...');
+
+      // Assuming your server responds with parsed data
+      const response = await axios.get('http://localhost:5000/parsed-data');
+      const parsedData = response.data;
+
+      console.log('Parsed data:', parsedData);
+      
+      // Update the state with parsed data
+      setParsedData(parsedData);
     } catch (error) {
-      console.error('Error uploading resume:', error);
+      console.error('Error uploading and parsing resume:', error);
     }
   };
 
@@ -145,51 +154,57 @@ const InfoEntry = () => {
       <input type="file" accept=".pdf,.doc,.docx" onChange={handleResumeFileChange} />
 
 
-      <h2 className="heading">Personal Info</h2>
-      <div className="name-section">
-        <label>First name:</label>
-        <input type="text" />
-        <label>Middle name:</label>
-        <input type="text" />
-        <label>Last name:</label>
-        <input type="text" />
-      </div>
+     {/* Display parsed data in input fields */}
+     {parsedData && (
+        <div>
+          <h2>Parsed Resume Data</h2>
+          {/* Personal Info */}
+          <div className="name-section">
+            <label>First name:</label>
+            <input type="text" value={parsedData.firstName} />
+            <label>Middle name:</label>
+            <input type="text" value={parsedData.middleName} />
+            <label>Last name:</label>
+            <input type="text" value={parsedData.lastName} />
+          </div>
+
       <div className="sex-section">
-        <label>Sex:</label>
-        <input type="radio" name="sex" value="male" /> Male
-        <input type="radio" name="sex" value="female" /> Female
-        <input type="radio" name="sex" value="others" /> Others
-      </div>
-      <div className="age-section">
-        <label>Age:</label>
-        <input type="text" placeholder="dd/mm/yyyy" />
-      </div>
+            <label>Sex:</label>
+            <input type="radio" name="sex" value="male" checked={parsedData.sex === 'male'} /> Male
+            <input type="radio" name="sex" value="female" checked={parsedData.sex === 'female'} /> Female
+            <input type="radio" name="sex" value="others" checked={parsedData.sex === 'others'} /> Others
+          </div>
+          <div className="age-section">
+            <label>Age:</label>
+            <input type="text" placeholder="dd/mm/yyyy" value={parsedData.age} />
+          </div>
+
+
+      {/* Contact Info */}
+          <div className="contact-section">
+            <label>Email ID:</label>
+            <input type="email" value={parsedData.email} />
+            <label>Phone No:</label>
+            <input type="tel" value={parsedData.phone} />
+            <label>Mobile No:</label>
+            <input type="tel" value={parsedData.mobile} />
+            <label>LinkedIn Profile:</label>
+            <input type="url" value={parsedData.linkedIn} />
+            <label>Github Profile:</label>
+            <input type="url" value={parsedData.github} />
+            <label>Twitter:</label>
+            <input type="url" value={parsedData.twitter} />
+            <label>Other Profiles:</label>
+            <input type="url" value={parsedData.otherProfiles} />
+          </div>
       
-      <h2 className="heading">Contact Info</h2>
-      <div className="contact-section">
-        <label>Email ID:</label>
-        <input type="email" />
-        <label>Phone No:</label>
-        <input type="tel" />
-        <label>Mobile No:</label>
-        <input type="tel" />
-        <label>LinkedIn Profile:</label>
-        <input type="url" />
-        <label>Github Profile:</label>
-        <input type="url" />
-        <label>Twitter:</label>
-        <input type="url" />
-        <label>Other Profiles:</label>
-        <input type="url" />
-      </div>
-      
-      <h2 className="heading">Educational Details</h2>
-      {educations.map((educationItem, index) => (
-        <div key={index} className="education-section">
-          <label>Educational Level:</label>
-          <select
-            value={educationItem.education}
-            onChange={(e) => handleEducationChange(index, 'education', e.target.value)}
+       {/* Educational Details */}
+       {educations.map((educationItem, index) => (
+            <div key={index} className="education-section">
+              <label>Educational Level:</label>
+              <select
+                value={educationItem.education}
+                onChange={(e) => handleEducationChange(index, 'education', e.target.value)}
           >
             <option value="">Select</option>
             {educationOptions.map((option) => (
@@ -200,10 +215,10 @@ const InfoEntry = () => {
           </select>
 
           <label>Degree:</label>
-          <select
-            value={educationItem.degree}
-            onChange={(e) => handleEducationChange(index, 'degree', e.target.value)}
-            disabled={!educationItem.education}
+              <select
+                value={educationItem.degree}
+                onChange={(e) => handleEducationChange(index, 'degree', e.target.value)}
+                disabled={!educationItem.education}
           >
             <option value="">Select</option>
             {degreeOptions[educationItem.education]?.map((deg) => (
@@ -214,10 +229,10 @@ const InfoEntry = () => {
           </select>
 
           <label>Major/Course:</label>
-          <select
-            value={educationItem.major}
-            onChange={(e) => handleEducationChange(index, 'major', e.target.value)}
-            disabled={!educationItem.degree}
+              <select
+                value={educationItem.major}
+                onChange={(e) => handleEducationChange(index, 'major', e.target.value)}
+                disabled={!educationItem.degree}
           >
             <option value="">Select</option>
             {majorOptions[educationItem.degree]?.map((maj) => (
@@ -227,35 +242,36 @@ const InfoEntry = () => {
             ))}
           </select>
           <label>Gpa:</label>
-          <input
-            type="text"
-            value={educationItem.gpa}
-            onChange={(e) => handleEducationChange(index, 'gpa', e.target.value)}
-          />
-          {index !== 0 && <button onClick={() => handleRemoveEducation(index)}>-</button>}
-        </div>
-      ))}
+              <input
+                type="text"
+                value={educationItem.gpa}
+                onChange={(e) => handleEducationChange(index, 'gpa', e.target.value)}
+              />
+              {index !== 0 && <button onClick={() => handleRemoveEducation(index)}>-</button>}
+            </div>
+          ))}
+
       <button onClick={handleAddEducation}>+</button>
 
-      <h2 className="heading">Set your Preferences!</h2>
-      <div className="preference-section">
-        <label>Preference:</label>
-        
-        <select value={preference} onChange={handlePreferenceChange}>
+      {/* Set Preferences */}
+          <h2 className="heading">Set your Preferences!</h2>
+          <div className="preference-section">
+            <label>Preference:</label>
+            <select value={preference} onChange={handlePreferenceChange}>
           <option value="">Select</option>
           <option value="Internship">Internship</option>
           <option value="Training">Training</option>
           <option value="Job">Job</option>
           <option value="Career Change">Career Change</option>
-        </select>
-      </div>
+          </select>
+          </div>
 
-      <div className="submit-section">
-        <button onClick={handleSubmit}>Submit</button>
-      </div>
+          <div className="submit-section">
+            <button onClick={handleSubmit}>Submit</button>
+          </div>
+        </div>
+      )}
     </div>
-    
-
   );
 };
 

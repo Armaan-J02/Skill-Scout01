@@ -1,7 +1,7 @@
 var _          = require('underscore'),
-    resume     = require('../resume'),
+    resume     = require('../Resume'),
     fs         = require('fs'),
-    dictionary = require('../dictionary.js'),
+    dictionary = require('./../dictionary.js'),
     logger     = require('tracer').colorConsole();
 
 var profilesWatcher = {
@@ -99,12 +99,6 @@ function parse(PreparedFile, cbReturnResume) {
   }
 }
 
-/**
- * Make text from @rowNum index of @allRows to the end of @allRows
- * @param rowNum
- * @param allRows
- * @returns {string}
- */
 function restoreTextByRows(rowNum, allRows) {
   rowNum = rowNum - 1;
   var rows = [];
@@ -117,20 +111,10 @@ function restoreTextByRows(rowNum, allRows) {
   return rows.join("\n");
 }
 
-/**
- * Count words in string
- * @param str
- * @returns {Number}
- */
 function countWords(str) {
   return str.split(' ').length;
 }
 
-/**
- *
- * @param Resume
- * @param row
- */
 function parseDictionaryInline(Resume, row) {
   var find;
 
@@ -142,11 +126,6 @@ function parseDictionaryInline(Resume, row) {
   });
 }
 
-/**
- *
- * @param data
- * @param Resume
- */
 function parseDictionaryRegular(data, Resume) {
   var regularDictionary = dictionary.regular,
       find;
@@ -161,12 +140,6 @@ function parseDictionaryRegular(data, Resume) {
   });
 }
 
-/**
- *
- * @param Resume
- * @param rows
- * @param rowIdx
- */
 function parseDictionaryTitles(Resume, rows, rowIdx) {
   var allTitles        = _.flatten(_.toArray(dictionary.titles)).join('|'),
       searchExpression = '',
@@ -198,12 +171,6 @@ function parseDictionaryTitles(Resume, rows, rowIdx) {
   });
 }
 
-/**
- *
- * @param row
- * @param Resume
- * @returns {*}
- */
 function parseDictionaryProfiles(row, Resume) {
   var regularDictionary = dictionary.profiles,
       find,

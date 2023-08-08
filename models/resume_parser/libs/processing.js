@@ -37,6 +37,7 @@ function cleanTextByRows(data) {
   return clearRows.join("\n") + "\n{end}";
 }
 
+
 function extractText(file, cbAfterExtract) {
   logger.trace(file)
   textract.fromFileWithPath(file, {preserveLineBreaks: true}, function (err, data) {
@@ -65,6 +66,7 @@ function PreparedFile(file, raw) {
   this.raw = raw;
   this.name = path.basename(file);
 }
+
 
 PreparedFile.prototype.addResume = function (Resume) {
   this.resume = Resume;
