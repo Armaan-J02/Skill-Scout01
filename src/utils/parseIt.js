@@ -1,6 +1,6 @@
 // Import necessary modules and libraries
 var ParseBoy = require('../models/resume_parser/ParseBoy');
-var processing = require('../models/resume_parser/libs/processing.js'); 
+var processing = require('../models/resume_parser/libs/processing'); 
 var logger = require('tracer').colorConsole();
 
 // Define the parser object

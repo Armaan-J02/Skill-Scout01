@@ -1,7 +1,7 @@
 var _          = require('underscore'),
     resume     = require('../Resume'),
     fs         = require('fs'),
-    dictionary = require('./../dictionary.js'),
+    dictionary = require('../dictionary.js'),
     logger     = require('tracer').colorConsole();
 
 var profilesWatcher = {

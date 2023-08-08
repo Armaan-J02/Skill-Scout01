@@ -2,9 +2,9 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const cors = require('cors');
-const { parse } = require('./src/libs/parser'); // Import the parser module
-const { run: processFile } = require('./src/libs/processing'); // Import the processing module
-const { Resume } = require('./src/Resume'); // Import the Resume class
+const { parse } = require('./src/libs/parser');
+const { run: processFile } = require('./src/libs/processing');
+const { Resume } = require('./src/Resume'); 
 const MongoClient = require('mongodb').MongoClient;
 
 const app = express();

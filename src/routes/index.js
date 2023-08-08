@@ -16,7 +16,7 @@ const upload = multer({
   }),
 });
 
-const parseIt = require('../utils/parseIt.js'); 
+const parseIt = require('../utils/parseIt'); 
 
 /* GET home page. */
 router.get('/', function (req, res, next) {

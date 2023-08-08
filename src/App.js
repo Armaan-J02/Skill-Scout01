@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from "./pages/home/home.js";
-import ResumeParserApp from './path/to/ResumeParserApp'; // Import ResumeParserApp component
+import ParseBoy from './models/resume_parser/ParseBoy.js'; 
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
       </Router>
 
       {/* Include the ResumeParserApp component */}
-      <ResumeParserApp />
+      <ParseBoy />
     </div>
   );
 }
