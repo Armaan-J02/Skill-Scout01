@@ -1,12 +1,12 @@
 import React,{ useState } from 'react';
-import DropDownMenu from './dropdown/ImageDropdown';
+//import ImageDropdown from './dropdown/ImageDropdown';
 import Dropdown from 'react-dropdown-select';
 //import './feed.css';
 import logo from './logo1.png';
 import icon from './blacki.png';
 import LeftLine from './component/LeftLine';
 import ImageDropdown from './dropdown/ImageDropdown';
-import Feed1 from './component/FeedBasic';
+import Feedbasic from './component/FeedBasic';
 import { Link, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function Feed(props) {
@@ -25,7 +25,7 @@ function Feed(props) {
           </div>
         <div className='main-container'>
         <LeftLine />
-        <Feed1 />
+        <Feedbasic />
         </div>
         
         </div>

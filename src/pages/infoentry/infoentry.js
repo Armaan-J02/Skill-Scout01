@@ -5,13 +5,10 @@ import './infoentry.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-
-
 const InfoEntry = () => {
    // State variables for storing the parsed data
    const [parsedData, setParsedData] = useState(null);
    const [autoFilled, setAutoFilled] = useState(false);
-
   const [educations, setEducations] = useState([
     {
       education: '',
@@ -107,54 +104,36 @@ const InfoEntry = () => {
   };
 
   const handleSubmit = async () => {
-    if (!autoFilled && resumeFile) {
     navigate('/feed')
     const formData = new FormData();
     formData.append('resume', resumeFile);
 
     try {
-        const response = await axios.post('http://localhost:5000/upload', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+      await axios.post('http://localhost:5000/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
-        // Set the parsed data and mark autoFilled as true
-        setParsedData(response.data);
-        setAutoFilled(true);
-      } catch (error) {
-        console.error('Error parsing resume:', error);
-      }
-    }  else {
-      const formDataToSave = {
-        // ... (other form data)
-        educations,
-        preference,
-        ...parsedData,
-      };
-
-      try {
-        await axios.post('http://localhost:5000/save', formDataToSave);
-        navigate('/feed');
-      } catch (error) {
-        console.error('Error saving data:', error);
-      }
+      console.log('Resume uploaded successfully!');
+    } catch (error) {
+      console.error('Error uploading resume:', error);
     }
   };
 
- // Save the resume file to the local folder
- const fileData = new Blob([resumeFile], { type: resumeFile.type });
- const fileName = resumeFile.name;
- const fileURL = URL.createObjectURL(fileData);
-
- // Create a link and click it to initiate the download
- const downloadLink = document.createElement('a');
- downloadLink.href = fileURL;
- downloadLink.download = fileName;
- document.body.appendChild(downloadLink);
- downloadLink.click();
- document.body.removeChild(downloadLink);
-
+  if (resumeFile) {
+    const fileData = new Blob([resumeFile], { type: resumeFile.type });
+    const fileName = resumeFile.name;
+    const fileURL = URL.createObjectURL(fileData);
+  
+    // Create a link and click it to initiate the download
+    const downloadLink = document.createElement('a');
+    downloadLink.href = fileURL;
+    downloadLink.download = fileName;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  }
 
 
   return (

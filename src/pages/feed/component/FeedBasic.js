@@ -1,6 +1,6 @@
 import React from 'react';
 import '../feed.css'
-const Feed = () => {
+const Feedbasic = () => {
   // Assuming you have a list of posts or content for the feed
   const posts = [
     {
@@ -29,4 +29,4 @@ const Feed = () => {
   );
 };
 
-export default Feed;
+export default Feedbasic;

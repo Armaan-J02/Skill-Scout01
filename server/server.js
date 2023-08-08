@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const cors = require('cors');
-const { parseResume } = require('./models/resumeparser'); // Import the resume parser code
+const { parseResume } = require('../models/resume_parser/'); // Import the resume parser code
 const MongoClient = require('mongodb').MongoClient;
 
 

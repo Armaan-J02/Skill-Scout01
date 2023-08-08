@@ -1,5 +1,5 @@
-var ParseBoy = require('../src/ParseBoy');
-var processing = require('../src/libs/processing');
+var ParseBoy = require('../models/resume_parser/ParseBoy');
+var processing = require('../models/resume_parser/libs/processing');
 var _ = require('underscore');
 var logger = require('tracer').colorConsole();
 
