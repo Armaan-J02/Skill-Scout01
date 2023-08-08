@@ -2,9 +2,9 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const cors = require('cors');
-const { parse } = require('./src/libs/parser');
-const { run: processFile } = require('./src/libs/processing');
-const { Resume } = require('./src/Resume'); 
+const { parse } = require('../models/resume_parser/libs/parser');
+const { run: processFile } = require('../models/resume_parser/libs/processing');
+const { Resume } = require('../models/resume_parser/Resume'); 
 const MongoClient = require('mongodb').MongoClient;
 
 const app = express();
@@ -12,6 +12,7 @@ const app = express();
 // Enable CORS
 app.use(cors());
 
+/*
 // MongoDB configuration
 const uri = 'mongodb://localhost:27017'; // Replace with your MongoDB URI
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -25,6 +26,7 @@ client.connect((err) => {
   }
   console.log('Connected to MongoDB successfully!');
 });
+*/
 
 // Configure storage using Multer
 const storage = multer.diskStorage({
