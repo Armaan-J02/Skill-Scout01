@@ -1,6 +1,6 @@
 import React,{ useState } from 'react';
-import DropDownMenu from './dropdown/ImageDropdown';
-import Dropdown from 'react-dropdown-select';
+//import ImageDropdown from './dropdown/ImageDropdown';
+//import Dropdown from 'react-dropdown-select';
 //import './feed.css';
 import logo from './logo1.png';
 import icon from './blacki.png';

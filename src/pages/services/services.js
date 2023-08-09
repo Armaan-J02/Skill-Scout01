@@ -1,6 +1,6 @@
 import React from 'react';
 import '../home/home.css';
-import logo from '../../pages/services/logo1.png';
+import logo from '../services/logo1.png';
 import icon from './blacki.png';
 import { Link, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
