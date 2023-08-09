@@ -11,12 +11,13 @@ app.use(cors());
 // Configure storage using Multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../src/storage/inputresume')); // Save the file to 'ats/storage/resume' folder
+    cb(null, path.join(__dirname, 'src/storage/inputresume'));
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
   },
 });
+
 
 const upload = multer({ storage });
 
