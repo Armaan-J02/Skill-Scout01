@@ -94,27 +94,31 @@ const InfoEntry = () => {
   const [preference, setPreference] = useState('');
   const [resumeFile, setResumeFile] = useState(null);
 
-  const handleResumeFileChange = (event) => {
+  const handleResumeFileChange = async (event) => {
     const selectedFile = event.target.files[0];
     setResumeFile(selectedFile);
+
+    // Automatically initiate upload when a file is selected
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append('resume', selectedFile);
+
+      try {
+        await axios.post('http://localhost:5000/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        console.log('Resume uploaded successfully!');
+      } catch (error) {
+        console.error('Error uploading resume:', error);
+      }
+    }
   };
 
   const handleSubmit = async () => {
     navigate('/feed')
-    const formData = new FormData();
-    formData.append('resume', resumeFile);
-
-    try {
-      await axios.post('http://localhost:5000/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      console.log('Resume uploaded successfully!');
-    } catch (error) {
-      console.error('Error uploading resume:', error);
-    }
   };
 
   const fileData = resumeFile ? new Blob([resumeFile], { type: resumeFile.type }) : null;
