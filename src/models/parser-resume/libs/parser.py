@@ -27,6 +27,8 @@ def extract_text(filepath):
         text = textract.process(filepath).decode('utf-8')
     return text.lower()
 
+'''This function is extracting name from the resume using the regulare expression 
+defined in the patterns dictionary in the patterns.py module.''' 
 def extract_name(text):
     name = ""
     # Extract name using the pattern
@@ -35,14 +37,29 @@ def extract_name(text):
         name = ' '.join(name_matches[0])
     return name
 
-input_filename = 'Ernani_Joppert.pdf'  # Replace this with the actual input filename
+'''This function is extracting email from the resume using the email_pattern logic
+defined in this function itself!'''
+def extract_email(text):
+    email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    matches = re.findall(email_pattern, text)
+    if matches:
+        return matches[0]
+    else:
+        return ""
+
+input_filename = 'Adelina_Erimia_PMP1.docx'  # Replace this with the actual input filename
 input_filepath = os.path.join('storage/inputresume', input_filename)
 resume_text = extract_text(input_filepath)
+
+
 name = extract_name(resume_text)
+email = extract_email(resume_text)
 print("Name:", name)
+print("Email", email)
 
 parsed_info = {
-    "name": name
+    "name": name,
+    "e-mail": email
 }
 
 # Define the output filename based on the input filename
