@@ -2,7 +2,7 @@ import re
 
 patterns = {
     "titles": {
-        "objective": ['objective', 'objectives'],
+        "objective": ['objective', 'objectives', 'career objective', 'professional objective'],
         "summary": ['summary'],
         "technology": ['technology', 'technologies'],
         "experience": ['experience'],
@@ -21,7 +21,7 @@ patterns = {
         "certification": ['certification', 'certifications'],
         "interests": ['interests']
     },
-    "profiles": [],  # Removed scraping profiles
+    "profiles": [],
     "inline": {
         # "address": 'address',
         "skype": 'skype'

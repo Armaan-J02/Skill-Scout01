@@ -47,19 +47,48 @@ def extract_email(text):
     else:
         return ""
 
-input_filename = 'Adelina_Erimia_PMP1.docx'  # Replace this with the actual input filename
+def extract_objective(text):
+    objective = ""
+    objective_pattern = patterns['titles']['objective'][0]
+    objective_matches = re.finditer(objective_pattern, text, re.IGNORECASE)
+    
+    for match in objective_matches:
+        start = match.end()  # Start right after the heading
+        
+        # Find the end of the objective section
+        next_heading_start = len(text)  # Initialize with the end of the text
+
+        for title, title_patterns in patterns['titles'].items():
+            if title != 'objective':
+                for pattern in title_patterns:
+                    matches = re.finditer(pattern, text, re.IGNORECASE)
+                    for m in matches:
+                        pattern_start = m.start()
+                        if 0 <= pattern_start < next_heading_start:
+                            next_heading_start = pattern_start
+
+        end = next_heading_start
+        objective = text[start:end].strip()
+
+    return objective
+
+
+
+input_filename = 'bhuvan.txt'  # Replace this with the actual input filename
 input_filepath = os.path.join('storage/inputresume', input_filename)
 resume_text = extract_text(input_filepath)
 
-
+objective = extract_objective(resume_text)
 name = extract_name(resume_text)
 email = extract_email(resume_text)
 print("Name:", name)
 print("Email", email)
+print("Objective", objective)
 
 parsed_info = {
     "name": name,
-    "e-mail": email
+    "e-mail": email,
+    "objective": objective
 }
 
 # Define the output filename based on the input filename
