@@ -20,6 +20,7 @@ June 2016 - May 2018
 Developed and maintained a Java-based application that processed over 1 million transactions daily.
 Worked with product managers to understand business requirements and translate them into technical specifications.
 Assisted with the design and implementation of a cloud-based infrastructure to improve system performance and reliability.
+
 Education:
 Bachelor of Science in Computer Science, Anytown University
 Graduated May 2016

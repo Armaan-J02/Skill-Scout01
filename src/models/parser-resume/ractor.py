@@ -8,7 +8,7 @@ from skills import skills
 import re
 import json
 
-filename = 'arman.txt'  # Replace this with the actual input filename
+filename = 'yash.txt'  # Replace this with the actual input filename
 filepath = os.path.join('storage/inputresume', filename)
 """ 
     This extract_text function will extract text from a file using its file extension, 
@@ -64,16 +64,16 @@ def extract_text_nm(filepath):
 '''
 
 def extract_content(paragraphs, patterns_dict):
-    """
+    '''
     Extract headings and content based on the provided patterns.
-    """
+    '''
     extracted_data = {}
     current_heading = None
     
     for paragraph in paragraphs:
         for heading, keywords in patterns_dict["titles"].items():
             for keyword in keywords:
-                if keyword in paragraph.lower():
+                if keyword.lower() in paragraph.lower():
                     current_heading = heading
                     break
         
@@ -121,26 +121,74 @@ def extract_phone(text):
     phone = ""
     phone_matches = re.findall(patterns['regular']['phone'][0], text, re.IGNORECASE)
     if phone_matches:
-        phone = ' '.join(phone_matches[0])
+        phone = ' '.join(filter(str.isdigit,phone_matches[0]))
+
     return phone
 
+'''
+def extract_skills(text, skills_dict):
+    extracted_skills = {}  # Initialize as a dictionary
+    for category, skill_list in skills_dict.items():
+        extracted_skills[category] = []  # Initialize an empty list for each category
+        for skill in skill_list:
+            if re.search(r'\b' + re.escape(skill) + r'\b', text, re.IGNORECASE):
+                extracted_skills[category].append(skill)  # Append skill to the corresponding category
+    
+    return extracted_skills
+'''
+# Extract paragraphs from the resume
+paragraphs = extract_text(filepath)
 
-
-
+# Extract text from resume
 resume_text = extract_text_nm(filepath)
-name, email, phone = extract_name(resume_text), extract_email(resume_text), extract_phone(resume_text)
-
-print("Name:", name, "\nEmail", email, "\nPhone", phone)
-
-
 
 
 paragraphs = extract_text(filepath) 
-
+resume_text = extract_text_nm(filepath)
+# Extract name, email, and other information
+name = extract_name(resume_text)
+email = extract_email(resume_text)
+phone = extract_phone(resume_text)
 content = extract_content(paragraphs, patterns)
-for heading, content in content.items():
-    print()
-    # print(heading,"\n",content,"\n")
 
-output_fname = f"{filename.split('.')[0]}_parsed.json"
-output_filepath = os.path.join('storage/output', output_fname)
+
+# Extract skills from resume text
+#skill = extract_skills(resume_text, skills)
+
+# Create a dictionary to hold the extracted information
+output_data = {
+    "name": name,
+    "email": email,
+    "phone": phone,
+    "objective": content.get("objective", ""),
+    "summary": content.get("summary", ""),
+    "technology": content.get("technology", ""),
+    "skills": content.get("skills", ""),
+    "experience": content.get("experience", ""),
+    "education": content.get("education", ""),
+    "languages": content.get("language", ""),
+    "courses": content.get("courses", ""),
+    "projects": content.get("projects", ""),
+    "links":  content.get("links", ""),
+    "contacts": content.get("contacts", ""),
+    "positions": content.get("positions", ""),
+    "profiles": content.get("profiles", ""),
+    "awards": content.get("awards", ""),
+    "honors": content.get("honors", ""),
+    "additional": content.get("additional", ""),
+    "certification": content.get("certifications", ""),
+    "interests": content.get("interests", "")
+    }
+
+output_directory, output_filename = os.path.split(filepath)  # Using the input file's directory and filename
+output_filename_without_extension, _ = os.path.splitext(output_filename)  # Removing the extension
+parsed_filename = f"{output_filename_without_extension}_parsed.json"  # Creating the parsed filename
+
+output_filepath = os.path.join('storage/output', parsed_filename)  # Creating the full output file path
+
+with open(output_filepath, 'w') as json_file:
+    json.dump(output_data, json_file, indent=4)
+
+
+
+
