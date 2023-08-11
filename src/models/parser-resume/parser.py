@@ -6,7 +6,7 @@ import csv
 import datetime
 import os
 from patterns import patterns
-from skills import skills
+from skills import kills
 import json
 import string
 

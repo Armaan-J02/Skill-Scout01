@@ -3,11 +3,11 @@ import re
 patterns = {
     "titles": {
         "objective": ['objective', 'objectives', 'career objective', 'professional objective'],
-        "summary": ['summary'],
+        "summary": ['summary', 'Summary', 'SUMMARY:'],
         "technology": ['technology', 'technologies'],
         "experience": ['experience'],
         "education": ['education'],
-        "skills": ['skills', 'Skills & Expertise', 'technology', 'technologies'],
+        "skills": ['skills', 'Skills & Expertise', 'technology', 'technologies', 'technical skills', 'technical_skills','TECHNICAL SKILLS:', 'summary of skills', 'SKILLS OF SKILLS'],
         "languages": ['languages'],
         "courses": ['courses'],
         "projects": ['projects'],

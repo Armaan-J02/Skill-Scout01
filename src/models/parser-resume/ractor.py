@@ -6,6 +6,7 @@ import string
 from patterns import patterns
 from skills import skills
 import re
+import json
 
 """ 
     This extract_text function will extract text from a file using its file extension, 
@@ -65,39 +66,17 @@ def extract_content(paragraphs, patterns_dict):
     
     return extracted_data
 
-'''This function is extracting name from the resume using the regulare expression 
-defined in the patterns dictionary in the patterns.py module.''' 
-def extract_name(text):
-    name = ""
-    # Extract name using the pattern
-    name_matches = re.findall(patterns['regular']['name'][0], text, re.IGNORECASE)
-    if name_matches:
-        name = ' '.join(name_matches[0])
-    return name
-
-'''This function is extracting email from the resume using the email_pattern logic
-defined in this function itself!'''
-def extract_email(text):
-    email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-    matches = re.findall(email_pattern, text)
-    if matches:
-        return matches[0]
-    else:
-        return ""
 
 
+filename = 'rohit.txt'  # Replace this with the actual input filename
+filepath = os.path.join('storage/inputresume', filename)
 
-# Example usage
-filepath = "storage/inputresume/rohit.txt"
 paragraphs = extract_text(filepath) 
-
 
 content = extract_content(paragraphs, patterns)
 for heading, content in content.items():
     print(heading,"\n",content,"\n")
 
-
-
-
-
+output_fname = f"{filename.split('.')[0]}_parsed.json"
+output_filepath = os.path.join('storage/output', output_fname)
 
