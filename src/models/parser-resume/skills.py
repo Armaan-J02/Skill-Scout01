@@ -1,4 +1,4 @@
-SKILLS = {
+skills = {
     'python': ['python', 'PYTHON'],
     'ml': ['machine learning', 'ml', 'ML'],
     'ai': ['artificial intelligence', 'ai', 'AI'],

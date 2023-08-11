@@ -4,9 +4,11 @@ import PyPDF2
 import textract
 import csv
 import datetime
-from patterns import patterns
 import os
+from patterns import patterns
+from skills import skills
 import json
+import string
 
 def extract_text(filepath):
     """
@@ -25,7 +27,10 @@ def extract_text(filepath):
             text = '\n'.join(pages)
     else:
         text = textract.process(filepath).decode('utf-8')
+    #Removing unnecessary punctuations from the extracted text.
+    text = text.translate.process(str.maketrans('','', string.punctuation))
     return text.lower()
+
 
 '''This function is extracting name from the resume using the regulare expression 
 defined in the patterns dictionary in the patterns.py module.''' 
@@ -95,8 +100,6 @@ def extract_summary(text):
         summary = text[start:end].strip()
 
     return summary
-
-
 
 
 
