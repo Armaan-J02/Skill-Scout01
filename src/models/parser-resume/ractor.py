@@ -103,7 +103,6 @@ def extract_name(text):
 
 #-------------------------------------
 
-
 '''This function is extracting email from the resume using the email_pattern logic
 defined in this function itself!'''
 def extract_email(text):
@@ -114,11 +113,25 @@ def extract_email(text):
     else:
         return ""
 
+#----------------------------------------
+'''
+    Defining function to extract phone/mobile no.
+'''
+def extract_phone(text):
+    phone = ""
+    phone_matches = re.findall(patterns['regular']['phone'][0], text, re.IGNORECASE)
+    if phone_matches:
+        phone = ' '.join(phone_matches[0])
+    return phone
+
+
+
+
 resume_text = extract_text_nm(filepath)
-name = extract_name(resume_text)
-email = extract_email(resume_text)
-print("Name:", name)
-print("Email", email)
+name, email, phone = extract_name(resume_text), extract_email(resume_text), extract_phone(resume_text)
+
+print("Name:", name, "\nEmail", email, "\nPhone", phone)
+
 
 
 
