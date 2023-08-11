@@ -65,7 +65,28 @@ def extract_content(paragraphs, patterns_dict):
         current_heading = None  # Reset the current_heading
     
     return extracted_data
-
+#-----------------------------------------------------------
+'''
+    Function to extract name from the resume file.
+'''
+def extract_name(text):
+    name = ""
+    # Extract name using the regularizaiton in patterns dictionary.
+    name_matches = re.findall(patterns['regular']['name'][0], text, re.IGNORECASE)
+    if name_matches:
+        name = ' '.join(name_matches[0])
+    return name
+#-----------------------------------------------------------
+'''
+    Funciton to extract email from the resume file.
+'''
+def extract_email(text):
+    email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    matches = re.findall(email_pattern, text)
+    if matches:
+        return matches[0]
+    else:
+        return ""
 
 
 filename = 'rohit.txt'  # Replace this with the actual input filename

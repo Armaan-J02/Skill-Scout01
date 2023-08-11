@@ -52,54 +52,6 @@ def extract_email(text):
     else:
         return ""
 
-def extract_objective(text):
-    objective = ""
-    objective_pattern = patterns['titles']['objective'][0]
-    objective_matches = re.finditer(objective_pattern, text, re.IGNORECASE)
-    
-    for match in objective_matches:
-        start = match.end()  # Start right after the heading
-        
-        # Find the end of the objective section
-        next_heading_start = len(text)  # Initialize with the end of the text
-
-        for title, title_patterns in patterns['titles'].items():
-            if title != 'objective':
-                for pattern in title_patterns:
-                    matches = re.finditer(pattern, text, re.IGNORECASE)
-                    for m in matches:
-                        pattern_start = m.start()
-                        if 0 <= pattern_start < next_heading_start:
-                            next_heading_start = pattern_start
-
-        end = next_heading_start
-        objective = text[start:end].strip()
-
-    return objective
-
-def extract_summary(text):
-    summary = ""
-    summary_pattern = r'summary'
-    summary_matches = re.finditer(summary_pattern, text, re.IGNORECASE)
-    
-    for match in summary_matches:
-        start = match.end()  # Start right after the heading
-        next_heading_start = len(text)  # Initialize with the end of the text
-
-        for title in patterns['titles']:
-            if title.lower() != 'summary':
-                title_patterns = patterns['titles'][title]
-                for pattern in title_patterns:
-                    matches = re.finditer(pattern, text, re.IGNORECASE)
-                    for m in matches:
-                        pattern_start = m.start()
-                        if 0 <= pattern_start < next_heading_start:
-                            next_heading_start = pattern_start
-
-        end = next_heading_start
-        summary = text[start:end].strip()
-
-    return summary
 
 
 
@@ -107,19 +59,15 @@ input_filename = 'Abiral_Pandey_Fullstack_Java.docx'  # Replace this with the ac
 input_filepath = os.path.join('storage/inputresume', input_filename)
 resume_text = extract_text(input_filepath)
 
-summary = extract_summary(resume_text)
-objective = extract_objective(resume_text)
 name = extract_name(resume_text)
 email = extract_email(resume_text)
 print("Name:", name)
 print("Email", email)
-print("Objective", objective)
-print("Summary:", summary)
+
 parsed_info = {
     "name": name,
     "e-mail": email,
-    "objective": objective,
-    "summary:": summary
+    
 }
 
 # Define the output filename based on the input filename
