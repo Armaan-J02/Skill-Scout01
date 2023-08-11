@@ -28,7 +28,7 @@ patterns = {
     },
     "regular": {
         "name": [
-            r"([A-Z][a-z]*)(\s[A-Z][a-z]*)"
+         r"([A-Z][a-z]+(?:\s[A-Z][a-z]+)*)"
         ],
         "email": [
             r"([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})"

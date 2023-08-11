@@ -8,13 +8,15 @@ from skills import skills
 import re
 import json
 
+filename = 'arman.txt'  # Replace this with the actual input filename
+filepath = os.path.join('storage/inputresume', filename)
 """ 
     This extract_text function will extract text from a file using its file extension, 
     split the extracted text into paragraphs using newline characters as delimiters,
     Remove unnecessary punctuations from the extracted text.
 """
 def extract_text(filepath):
-    extension = os.path.splitext(filepath)[1][1:].lower()
+    extension = os.path.splitext(filepath)[1][1:]
     if extension == 'txt':
         with open(filepath, 'r') as f:
             text = f.read()
@@ -27,7 +29,7 @@ def extract_text(filepath):
             text = '\n'.join(pages)
     else:
         text = textract.process(filepath).decode('utf-8')
-
+    
     # Splitting text into paragraphs using newline characters as delimiters
     paragraphs = text.split('\n\n') # Split by double newline to represent paragraphs
     
@@ -36,6 +38,26 @@ def extract_text(filepath):
     paragraphs = [paragraph.translate(translator) for paragraph in paragraphs]
     
     return paragraphs
+
+def extract_text_nm(filepath):
+    """
+    Extract text from a file using its file extension.
+    """
+    extension = os.path.splitext(filepath)[1][1:].lower()
+    if extension == 'txt':
+        with open(filepath, 'r') as f:
+            text = f.read()
+    elif extension == 'docx':
+        text = docx2txt.process(filepath)
+    elif extension == 'pdf':
+        with open(filepath, 'rb') as f:
+            reader = PyPDF2.PdfReader(f, strict=False)
+            pages = [reader.pages[i].extract_text() for i in range(len(reader.pages))]
+            text = '\n'.join(pages)
+    else:
+        text = textract.process(filepath).decode('utf-8')
+    return text.lower()
+
 #------------------------------------------------------------
 '''
     Defining a function whose funciton would be to consider the paragraph or sentence as the content under that heading when match is found!
@@ -65,21 +87,25 @@ def extract_content(paragraphs, patterns_dict):
         current_heading = None  # Reset the current_heading
     
     return extracted_data
-#-----------------------------------------------------------
-'''
-    Function to extract name from the resume file.
-'''
+
+
+#-----------------------------------------
+
+'''This function is extracting name from the resume using the regulare expression 
+defined in the patterns dictionary in the patterns.py module.''' 
 def extract_name(text):
     name = ""
-    # Extract name using the regularizaiton in patterns dictionary.
+    # Extract name using the pattern
     name_matches = re.findall(patterns['regular']['name'][0], text, re.IGNORECASE)
     if name_matches:
         name = ' '.join(name_matches[0])
     return name
-#-----------------------------------------------------------
-'''
-    Funciton to extract email from the resume file.
-'''
+
+#-------------------------------------
+
+
+'''This function is extracting email from the resume using the email_pattern logic
+defined in this function itself!'''
 def extract_email(text):
     email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     matches = re.findall(email_pattern, text)
@@ -88,16 +114,20 @@ def extract_email(text):
     else:
         return ""
 
+resume_text = extract_text_nm(filepath)
+name = extract_name(resume_text)
+email = extract_email(resume_text)
+print("Name:", name)
+print("Email", email)
 
-filename = 'rohit.txt'  # Replace this with the actual input filename
-filepath = os.path.join('storage/inputresume', filename)
+
 
 paragraphs = extract_text(filepath) 
 
 content = extract_content(paragraphs, patterns)
 for heading, content in content.items():
-    print(heading,"\n",content,"\n")
+    print()
+    # print(heading,"\n",content,"\n")
 
 output_fname = f"{filename.split('.')[0]}_parsed.json"
 output_filepath = os.path.join('storage/output', output_fname)
-
