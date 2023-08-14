@@ -94,41 +94,46 @@ const InfoEntry = () => {
   const [preference, setPreference] = useState('');
   const [resumeFile, setResumeFile] = useState(null);
 
-  const handleResumeFileChange = (event) => {
+  const handleResumeFileChange = async (event) => {
     const selectedFile = event.target.files[0];
     setResumeFile(selectedFile);
+
+    // Automatically initiate upload when a file is selected
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append('resume', selectedFile);
+
+      try {
+        await axios.post('http://localhost:5000/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        console.log('Resume uploaded successfully!');
+      } catch (error) {
+        console.error('Error uploading resume:', error);
+      }
+    }
   };
 
   const handleSubmit = async () => {
     navigate('/feed')
-    const formData = new FormData();
-    formData.append('resume', resumeFile);
-
-    try {
-      await axios.post('http://localhost:5000/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      console.log('Resume uploaded successfully!');
-    } catch (error) {
-      console.error('Error uploading resume:', error);
-    }
   };
 
- // Save the resume file to the local folder
- const fileData = new Blob([resumeFile], { type: resumeFile.type });
- const fileName = resumeFile.name;
- const fileURL = URL.createObjectURL(fileData);
-
- // Create a link and click it to initiate the download
- const downloadLink = document.createElement('a');
- downloadLink.href = fileURL;
- downloadLink.download = fileName;
- document.body.appendChild(downloadLink);
- downloadLink.click();
- document.body.removeChild(downloadLink);
+  const fileData = resumeFile ? new Blob([resumeFile], { type: resumeFile.type }) : null;
+  const fileName = resumeFile ? resumeFile.name : '';
+  const fileURL = fileData ? URL.createObjectURL(fileData) : '';
+  
+  // Create a link and click it to initiate the download
+  if (fileData) {
+    const downloadLink = document.createElement('a');
+    downloadLink.href = fileURL;
+    downloadLink.download = fileName;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  }
 
 
 
