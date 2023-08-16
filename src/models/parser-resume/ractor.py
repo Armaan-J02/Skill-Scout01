@@ -136,27 +136,16 @@ def extract_skills(text, skills_dict):
     
     return extracted_skills
 '''
-# Extract paragraphs from the resume
-paragraphs = extract_text(filepath)
 
-# Extract text from resume
-resume_text = extract_text_nm(filepath)
+def parser(filepath):
+    paragraphs = extract_text(filepath)
+    resume_text = extract_text_nm(filepath)
+    name = extract_name(resume_text)
+    email = extract_email(resume_text)
+    phone = extract_phone(resume_text)
+    content = extract_content(paragraphs, patterns)
 
-
-paragraphs = extract_text(filepath) 
-resume_text = extract_text_nm(filepath)
-# Extract name, email, and other information
-name = extract_name(resume_text)
-email = extract_email(resume_text)
-phone = extract_phone(resume_text)
-content = extract_content(paragraphs, patterns)
-
-
-# Extract skills from resume text
-#skill = extract_skills(resume_text, skills)
-
-# Create a dictionary to hold the extracted information
-output_data = {
+    output_data = {
     "name": name,
     "email": email,
     "phone": phone,
@@ -179,16 +168,21 @@ output_data = {
     "certification": content.get("certifications", ""),
     "interests": content.get("interests", "")
     }
+    output_filepath, output_filename = os.path.split(filepath)  # Using the input file's directory and filename
+    output_filename_without_extension, _ = os.path.splitext(output_filename)  # Removing the extension
+    parsed_filename = f"{output_filename_without_extension}_parsed.json"  # Creating the parsed filename
 
-output_directory, output_filename = os.path.split(filepath)  # Using the input file's directory and filename
-output_filename_without_extension, _ = os.path.splitext(output_filename)  # Removing the extension
-parsed_filename = f"{output_filename_without_extension}_parsed.json"  # Creating the parsed filename
+    output_filepath = os.path.join('storage/output', parsed_filename)  # Creating the full output file path
 
-output_filepath = os.path.join('storage/output', parsed_filename)  # Creating the full output file path
+    with open(output_filepath, 'w') as json_file:
+        json.dump(output_data, json_file, indent=4)
+    return output_data, parsed_filename, output_filepath     
 
+output_data, parsed_filename, output_filepath = parser(filepath)
+
+# Write the parsed resume data to a JSON file
 with open(output_filepath, 'w') as json_file:
     json.dump(output_data, json_file, indent=4)
 
-
-
+print(f"Resume data parsed and saved to {parsed_filename}")
 
