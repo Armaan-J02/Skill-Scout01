@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import './infoentry.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import execa from 'execa';
 
 const InfoEntry = () => {
   const [educations, setEducations] = useState([
@@ -112,20 +111,12 @@ const InfoEntry = () => {
         });
 
         console.log('Resume uploaded successfully!');
-
-        // Execute the Python resume parser after uploading
-        const pythonScriptPath = '/path/to/parser.py'; // Replace with the actual path
-        try {
-          await execa('python', [pythonScriptPath]);
-          console.log('Python script executed successfully!');
-        } catch (error) {
-          console.error('Error executing Python script:', error);
-        }
       } catch (error) {
         console.error('Error uploading resume:', error);
       }
     }
   };
+
   const handleSubmit = async () => {
     navigate('/feed')
   };
