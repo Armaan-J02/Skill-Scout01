@@ -120,22 +120,7 @@ const InfoEntry = () => {
   const handleSubmit = async () => {
     navigate('/feed')
   };
-
-  const fileData = resumeFile ? new Blob([resumeFile], { type: resumeFile.type }) : null;
-  const fileName = resumeFile ? resumeFile.name : '';
-  const fileURL = fileData ? URL.createObjectURL(fileData) : '';
   
-  // Create a link and click it to initiate the download
-  if (fileData) {
-    const downloadLink = document.createElement('a');
-    downloadLink.href = fileURL;
-    downloadLink.download = fileName;
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
-  }
-
-
 
   return (
     <div className="info-entry">
@@ -143,7 +128,7 @@ const InfoEntry = () => {
       
       <h2 className="heading">Resume</h2>
       <label>Upload your Resume:</label>
-      <input type="file" accept=".pdf,.doc,.docx" onChange={handleResumeFileChange} />
+      <input type="file" accept=".pdf,.doc,.docx, .txt" onChange={handleResumeFileChange} />
 
 
       <h2 className="heading">Personal Info</h2>
