@@ -35,6 +35,11 @@ patterns = {
         ],
         "phone": [
             r"((?:\+?\d{1,3}[\s-])?\(?\d{2,3}\)?[\s.-]?\d{3}[\s.-]\d{4,5})"
-        ]
-}
+        ],
+        "linkedin": [
+            r"(linkedin\.com\/in\/[A-Za-z0-9-_.]+)"
+        ],
+        "github": [
+            r"(github\.com\/[A-Za-z0-9-_.]+)"
+        ]}
 }
