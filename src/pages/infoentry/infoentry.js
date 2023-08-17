@@ -1,9 +1,10 @@
 // infoentry.js
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './infoentry.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
 
 const InfoEntry = () => {
   const [educations, setEducations] = useState([
@@ -117,25 +118,45 @@ const InfoEntry = () => {
     }
   };
 
+  const [extractedInfo, setExtractedInfo] = useState({
+    email: '',
+    phone: '',
+    linkedin: '',
+    github: '',
+  });
+  
+  
+
+  useEffect(() => {
+    const fetchExtractedInfo = async () => {
+      try {
+        const parsedFileName = resumeFile ? resumeFile.name.replace(/\.[^.]+$/, '') : ''; // Get the parsed file name without extension
+        const response = await axios.get(`http://localhost:5000/extracted-info/${parsedFileName}`);
+        console.log(response.data);
+        setExtractedInfo(response.data);
+      } catch (error) {
+        console.error('Error fetching extracted info:', error);
+      }
+    };
+  
+    if (resumeFile) {
+      fetchExtractedInfo(); // Fetch extracted info only if resumeFile is present
+    }
+  }, [resumeFile]);
+
+
+  const handleExtractedInfoChange = (field, value) => {
+    setExtractedInfo(prevInfo => ({
+      ...prevInfo,
+      [field]: value,
+    }));
+  };
+  
+
   const handleSubmit = async () => {
     navigate('/feed')
   };
-
-  const fileData = resumeFile ? new Blob([resumeFile], { type: resumeFile.type }) : null;
-  const fileName = resumeFile ? resumeFile.name : '';
-  const fileURL = fileData ? URL.createObjectURL(fileData) : '';
   
-  // Create a link and click it to initiate the download
-  if (fileData) {
-    const downloadLink = document.createElement('a');
-    downloadLink.href = fileURL;
-    downloadLink.download = fileName;
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
-  }
-
-
 
   return (
     <div className="info-entry">
@@ -143,7 +164,7 @@ const InfoEntry = () => {
       
       <h2 className="heading">Resume</h2>
       <label>Upload your Resume:</label>
-      <input type="file" accept=".pdf,.doc,.docx" onChange={handleResumeFileChange} />
+      <input type="file" accept=".pdf,.doc,.docx, .txt" onChange={handleResumeFileChange} />
 
 
       <h2 className="heading">Personal Info</h2>
@@ -169,15 +190,29 @@ const InfoEntry = () => {
       <h2 className="heading">Contact Info</h2>
       <div className="contact-section">
         <label>Email ID:</label>
-        <input type="email" />
+        <input
+          type="email"
+          value={extractedInfo.email}
+          onChange={(e) => handleExtractedInfoChange('email', e.target.value)}
+        />
         <label>Phone No:</label>
-        <input type="tel" />
-        <label>Mobile No:</label>
-        <input type="tel" />
+        <input
+          type="tel"
+          value={extractedInfo.phone}
+          onChange={(e) => handleExtractedInfoChange('phone', e.target.value)}
+        />
         <label>LinkedIn Profile:</label>
-        <input type="url" />
+        <input
+          type="url"
+          value={extractedInfo.linkedin}
+          onChange={(e) => handleExtractedInfoChange('linkedin', e.target.value)}
+        />
         <label>Github Profile:</label>
-        <input type="url" />
+        <input
+          type="url"
+          value={extractedInfo.github}
+          onChange={(e) => handleExtractedInfoChange('github', e.target.value)}
+          />
         <label>Twitter:</label>
         <input type="url" />
         <label>Other Profiles:</label>

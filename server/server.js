@@ -2,16 +2,16 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const cors = require('cors');
-
+const execa = require('execa');
+const fs = require('fs'); // Import the fs module
 const app = express();
 
-// Enable CORS
+
 app.use(cors());
 
-// Configure storage using Multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../storage/inputresume')); // Save the file to 'ats/storage/resume' folder
+    cb(null, path.join(__dirname, '../storage/inputresume'));
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
@@ -20,13 +20,60 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// Handle the file upload.
-app.post('/upload', upload.single('resume'), (req, res) => {
-  // Respond with a success message
-  res.json({ message: 'Resume uploaded successfully!' });
+app.post('/upload', upload.single('resume'), async (req, res) => {
+  const uploadedFileName = req.file.originalname;
+  const parsedFileName = uploadedFileName.replace(/\.[^.]+$/, ''); // Remove file extension
+
+  try {
+    const pythonScriptPath = 'src/models/parser-resume/ractor.py';
+    await execa('python', [pythonScriptPath, uploadedFileName]);
+
+    console.log('Python script executed successfully!');
+
+    const jsonFilePath = path.join(__dirname, '../storage/output', `${parsedFileName}.json`);
+    const jsonData = fs.readFileSync(jsonFilePath, 'utf-8');
+    const resumeData = JSON.parse(jsonData);
+
+    const extractedInfo = {
+      email: resumeData.email,
+      phone: resumeData.phone,
+      linkedin: resumeData.linkedin,
+      github: resumeData.github,
+    };
+    console.log('hello')
+    console.log(extractedInfo)
+
+    res.write('Resume parsed successfully!'); // Send notification
+    res.end(); // End the response
+
+    console.log('Resume parsed successfully!');
+  } catch (error) {
+    console.error('Error executing Python script:', error);
+    res.status(500).json({ error: 'An error occurred while parsing the resume.' });
+  }
 });
 
-// Default route to handle root URL
+app.get('/extracted-info/:filename', (req, res) => {
+  const parsedFileName = req.params.filename.replace(/\.[^.]+$/, ''); // Remove file extension
+  const jsonFilePath = path.join(__dirname, '../storage/output', `${parsedFileName}.json`);
+
+  if (fs.existsSync(jsonFilePath)) {
+    const jsonData = fs.readFileSync(jsonFilePath, 'utf-8');
+    const resumeData = JSON.parse(jsonData);
+    console.log(jsonFilePath)
+    const extractedInfo = {
+      email: resumeData.email,
+      phone: resumeData.phone,
+      linkedin: resumeData.linkedin,
+      github: resumeData.github,
+    };
+
+    res.json(extractedInfo);
+  } else {
+    res.status(404).json({ error: 'Extracted JSON file not found.' });
+  }
+});
+
 app.get('/', (req, res) => {
   res.send('Server is running. Use POST request to /upload for file upload.');
 });
