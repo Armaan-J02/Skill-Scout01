@@ -5,7 +5,7 @@ const cors = require('cors');
 const execa = require('execa');
 const fs = require('fs'); // Import the fs module
 const app = express();
-const {generateParsedFilename} = require('./utils');
+
 
 app.use(cors());
 
@@ -40,6 +40,8 @@ app.post('/upload', upload.single('resume'), async (req, res) => {
       linkedin: resumeData.linkedin,
       github: resumeData.github,
     };
+    console.log('hello')
+    console.log(extractedInfo)
 
     res.write('Resume parsed successfully!'); // Send notification
     res.end(); // End the response
@@ -51,19 +53,24 @@ app.post('/upload', upload.single('resume'), async (req, res) => {
   }
 });
 
-app.get('/output/:filename', (req, res) => {
+app.get('/extracted-info/:filename', (req, res) => {
   const parsedFileName = req.params.filename.replace(/\.[^.]+$/, ''); // Remove file extension
-  const jsonFilePath = path.join(__dirname, '../storage/output', `${parsedFileName}_parsed.json`);
+  const jsonFilePath = path.join(__dirname, '../storage/output', `${parsedFileName}.json`);
 
   if (fs.existsSync(jsonFilePath)) {
     const jsonData = fs.readFileSync(jsonFilePath, 'utf-8');
     const resumeData = JSON.parse(jsonData);
-    
-    res.write('Parsed resume data:\n');
-    res.write(JSON.stringify(resumeData, null, 2)); // Write JSON data
-    res.end(); // End the response
+    console.log(jsonFilePath)
+    const extractedInfo = {
+      email: resumeData.email,
+      phone: resumeData.phone,
+      linkedin: resumeData.linkedin,
+      github: resumeData.github,
+    };
+
+    res.json(extractedInfo);
   } else {
-    res.status(404).send('Parsed JSON file not found.');
+    res.status(404).json({ error: 'Extracted JSON file not found.' });
   }
 });
 

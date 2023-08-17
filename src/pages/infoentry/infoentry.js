@@ -1,9 +1,10 @@
 // infoentry.js
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './infoentry.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
 
 const InfoEntry = () => {
   const [educations, setEducations] = useState([
@@ -117,6 +118,33 @@ const InfoEntry = () => {
     }
   };
 
+  const [extractedInfo, setExtractedInfo] = useState({
+    email: '',
+    phone: '',
+    linkedin: '',
+    github: '',
+  });
+  
+  
+
+  useEffect(() => {
+    const fetchExtractedInfo = async () => {
+      try {
+        const parsedFileName = resumeFile ? resumeFile.name.replace(/\.[^.]+$/, '') : ''; // Get the parsed file name without extension
+        const response = await axios.get(`http://localhost:5000/extracted-info/${parsedFileName}`);
+        console.log(response.data);
+        setExtractedInfo(response.data);
+      } catch (error) {
+        console.error('Error fetching extracted info:', error);
+      }
+    };
+  
+    if (resumeFile) {
+      fetchExtractedInfo(); // Fetch extracted info only if resumeFile is present
+    }
+  }, [resumeFile]);
+
+
   const handleSubmit = async () => {
     navigate('/feed')
   };
@@ -154,15 +182,13 @@ const InfoEntry = () => {
       <h2 className="heading">Contact Info</h2>
       <div className="contact-section">
         <label>Email ID:</label>
-        <input type="email" />
+        <input type="email" value={extractedInfo.email} />
         <label>Phone No:</label>
-        <input type="tel" />
-        <label>Mobile No:</label>
-        <input type="tel" />
+        <input type="tel" value={extractedInfo.phone} />
         <label>LinkedIn Profile:</label>
-        <input type="url" />
+        <input type="url" value={extractedInfo.linkedin} />
         <label>Github Profile:</label>
-        <input type="url" />
+        <input type="url" value={extractedInfo.github} />
         <label>Twitter:</label>
         <input type="url" />
         <label>Other Profiles:</label>
