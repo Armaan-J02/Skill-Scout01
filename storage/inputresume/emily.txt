@@ -1,11 +1,10 @@
-
-
-
 emily
 123 Main St.
 Anytown, USA 12345
 (123) 456-7890
 johndoe@gmail.com
+https://linkedin.com/aigharpeghaoer
+https://github.com/ahgpaoihg
 
 Objective:
 To obtain a position as a software developer.
