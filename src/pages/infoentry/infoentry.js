@@ -145,6 +145,14 @@ const InfoEntry = () => {
   }, [resumeFile]);
 
 
+  const handleExtractedInfoChange = (field, value) => {
+    setExtractedInfo(prevInfo => ({
+      ...prevInfo,
+      [field]: value,
+    }));
+  };
+  
+
   const handleSubmit = async () => {
     navigate('/feed')
   };
@@ -182,13 +190,29 @@ const InfoEntry = () => {
       <h2 className="heading">Contact Info</h2>
       <div className="contact-section">
         <label>Email ID:</label>
-        <input type="email" value={extractedInfo.email} />
+        <input
+          type="email"
+          value={extractedInfo.email}
+          onChange={(e) => handleExtractedInfoChange('email', e.target.value)}
+        />
         <label>Phone No:</label>
-        <input type="tel" value={extractedInfo.phone} />
+        <input
+          type="tel"
+          value={extractedInfo.phone}
+          onChange={(e) => handleExtractedInfoChange('phone', e.target.value)}
+        />
         <label>LinkedIn Profile:</label>
-        <input type="url" value={extractedInfo.linkedin} />
+        <input
+          type="url"
+          value={extractedInfo.linkedin}
+          onChange={(e) => handleExtractedInfoChange('linkedin', e.target.value)}
+        />
         <label>Github Profile:</label>
-        <input type="url" value={extractedInfo.github} />
+        <input
+          type="url"
+          value={extractedInfo.github}
+          onChange={(e) => handleExtractedInfoChange('github', e.target.value)}
+          />
         <label>Twitter:</label>
         <input type="url" />
         <label>Other Profiles:</label>
