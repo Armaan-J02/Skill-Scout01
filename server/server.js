@@ -7,13 +7,7 @@ const fs = require('fs'); // Import the fs module
 const app = express();
 
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use("/",cors(), (req, res, next) => {
-});
-
-
-
+app.use(cors());
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
