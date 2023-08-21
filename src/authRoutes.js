@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors')
-
+const accountSchema = require('./schemas/account'); 
 
 // Import the exported connection string from atlas_uri.js
 const atlasUri = require('../atlas_uri');
@@ -23,14 +23,7 @@ db.once('open', function () {
   console.log('Connected successfully');
 });
 
-const accountSchema = new mongoose.Schema({
-  email: {
-    type: String,
-  },
-  password: {
-    type: String,
-  },
-});
+
 
 // Specify the collection name as 'accounts'
 const Account = mongoose.model('accounts', accountSchema);
@@ -49,6 +42,8 @@ app.post('/api/register', async (req, res) => {
     res.status(500).json({ error: 'An error occurred' });
   }
 });
+
+
 
 app.listen(3001, () => {
   console.log('Server is running on port 3001');
