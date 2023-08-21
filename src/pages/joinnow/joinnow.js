@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import './joinnow.css';
+import axios from 'axios';
 
 
 function JoinNow() {
@@ -10,11 +11,29 @@ function JoinNow() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleJoinNow = (e) => {
+  
+  const handleJoinNow = async (e) => {
     e.preventDefault();
-    navigate('/info-entry');
-    // Add your join now logic here
+  
+    try {
+      const response = await fetch('http://localhost:3001/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+  
+      if (response.ok) {
+        navigate('/info-entry');
+      } else {
+        console.error('Request failed with status:', response.status);
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
   };
+  
 
   function isPasswordValid(password) {
     const alphanumericRegex = /^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[!@#$%^&*])[A-Za-z0-9!@#$%^&*]+$/;
@@ -43,7 +62,7 @@ function JoinNow() {
           variant="outlined"
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)} placeholder='Email'
           required
         />
         {!isEmailValid(email) && <Typography color="error">Please enter a valid email address.</Typography>}
@@ -52,7 +71,7 @@ function JoinNow() {
           variant="outlined"
           type="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)} placeholder='Password'
           required
         />
         {password && (
@@ -76,5 +95,6 @@ function JoinNow() {
     </Box>
   );
 }
+
 
 export default JoinNow;
