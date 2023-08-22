@@ -30,22 +30,6 @@ app.post('/upload', upload.single('resume'), async (req, res) => {
 
     console.log('Python script executed successfully!');
 
-    const jsonFilePath = path.join(__dirname, '../storage/output', `${parsedFileName}.json`);
-    const jsonData = fs.readFileSync(jsonFilePath, 'utf-8');
-    const resumeData = JSON.parse(jsonData);
-
-    const extractedInfo = {
-      email: resumeData.email,
-      phone: resumeData.phone,
-      linkedin: resumeData.linkedin,
-      github: resumeData.github,
-    };
-    console.log('hello')
-    console.log(extractedInfo)
-
-    res.write('Resume parsed successfully!'); // Send notification
-    res.end(); // End the response
-
     console.log('Resume parsed successfully!');
   } catch (error) {
     console.error('Error executing Python script:', error);
@@ -53,26 +37,26 @@ app.post('/upload', upload.single('resume'), async (req, res) => {
   }
 });
 
-app.get('/extracted-info/:filename', (req, res) => {
-  const parsedFileName = req.params.filename.replace(/\.[^.]+$/, ''); // Remove file extension
-  const jsonFilePath = path.join(__dirname, '../storage/output', `${parsedFileName}.json`);
+//  app.get('/extracted-info/:filename', (req, res) => {
+//   const parsedFileName = req.params.filename.replace(/\.[^.]+$/, ''); // Remove file extension
+//   const jsonFilePath = path.join(__dirname, '../storage/output', `${parsedFileName}.json`);
 
-  if (fs.existsSync(jsonFilePath)) {
-    const jsonData = fs.readFileSync(jsonFilePath, 'utf-8');
-    const resumeData = JSON.parse(jsonData);
-    console.log(jsonFilePath)
-    const extractedInfo = {
-      email: resumeData.email,
-      phone: resumeData.phone,
-      linkedin: resumeData.linkedin,
-      github: resumeData.github,
-    };
+//   if (fs.existsSync(jsonFilePath)) {
+//     const jsonData = fs.readFileSync(jsonFilePath, 'utf-8');
+//     const resumeData = JSON.parse(jsonData);
+//     console.log(jsonFilePath)
+//     const extractedInfo = {
+//       email: resumeData.email,
+//       phone: resumeData.phone,
+//       linkedin: resumeData.linkedin,
+//       github: resumeData.github,
+//     };
 
-    res.json(extractedInfo);
-  } else {
-    res.status(404).json({ error: 'Extracted JSON file not found.' });
-  }
-});
+//     res.json(extractedInfo);
+//   } else {
+//     res.status(404).json({ error: 'Extracted JSON file not found.' });
+//   }
+// });
 
 app.get('/', (req, res) => {
   res.send('Server is running. Use POST request to /upload for file upload.');
