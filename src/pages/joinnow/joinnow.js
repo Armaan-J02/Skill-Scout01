@@ -25,7 +25,7 @@ function JoinNow() {
       });
   
       if (response.ok) {
-        navigate('/resumeup');
+        navigate('/signlog');
       } else {
         console.error('Request failed with status:', response.status);
       }

@@ -27,4 +27,5 @@ const resumeSchema = new mongoose.Schema({
   interests: String,
 });
 
-module.exports = resumeSchema;
+const Resume = mongoose.model('resume', resumeSchema);
+module.exports = Resume;

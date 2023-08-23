@@ -8,6 +8,7 @@ import axios from 'axios';
 
 const InfoEntry = () => {
   const [educations, setEducations] = useState([
+  
     {
       education: '',
       degree: '',
@@ -93,42 +94,24 @@ const InfoEntry = () => {
     setPreference(e.target.value);
   };
   const [preference, setPreference] = useState('');
-  const [resumeFile, setResumeFile] = useState(null);
-
-  const [extractedInfo, setExtractedInfo] = useState({
-    email: '',
-    phone: '',
-    linkedin: '',
-    github: '',
-  });
-  
-  
+  const [resumeObjectId, setResumeObjectId] = useState(null);
+  const [resumeData, setResumeData] = useState(null);
 
   useEffect(() => {
-    const fetchExtractedInfo = async () => {
-      try {
-        const parsedFileName = resumeFile ? resumeFile.name.replace(/\.[^.]+$/, '') : ''; // Get the parsed file name without extension
-        const response = await axios.get(`http://localhost:5000/extracted-info/${parsedFileName}`);
-        console.log(response.data);
-        setExtractedInfo(response.data);
-      } catch (error) {
-        console.error('Error fetching extracted info:', error);
-      }
-    };
-  
-    if (resumeFile) {
-      fetchExtractedInfo(); // Fetch extracted info only if resumeFile is present
+    // Fetch resume data when resumeObjectId changes
+    if (resumeObjectId) {
+      axios.get(`/api/getResumeData/${resumeObjectId}`)
+        .then(response => {
+          // Set the fetched resume data to state
+          setResumeData(response.data);
+        })
+        .catch(error => {
+          console.error('Error fetching resume data:', error);
+        });
     }
-  }, [resumeFile]);
-
-
-  const handleExtractedInfoChange = (field, value) => {
-    setExtractedInfo(prevInfo => ({
-      ...prevInfo,
-      [field]: value,
-    }));
-  };
+  }, [resumeObjectId]);
   
+
 
   const handleSubmit = async () => {
     navigate('/feed')
@@ -142,7 +125,8 @@ const InfoEntry = () => {
       <h2 className="heading">Personal Info</h2>
       <div className="name-section">
         <label>First name:</label>
-        <input type="text" />
+        <input type="text" 
+        value={resumeData?.name || ''}/>
         <label>Middle name:</label>
         <input type="text" />
         <label>Last name:</label>
@@ -164,27 +148,20 @@ const InfoEntry = () => {
         <label>Email ID:</label>
         <input
           type="email"
-          value={extractedInfo.email}
-          onChange={(e) => handleExtractedInfoChange('email', e.target.value)}
+          value={resumeData?.email || ''}
         />
         <label>Phone No:</label>
         <input
           type="tel"
-          value={extractedInfo.phone}
-          onChange={(e) => handleExtractedInfoChange('phone', e.target.value)}
-        />
+          value={resumeData?.phone || ''}        />
         <label>LinkedIn Profile:</label>
         <input
           type="url"
-          value={extractedInfo.linkedin}
-          onChange={(e) => handleExtractedInfoChange('linkedin', e.target.value)}
-        />
+          value={resumeData?.linkedin || ''}        />
         <label>Github Profile:</label>
         <input
           type="url"
-          value={extractedInfo.github}
-          onChange={(e) => handleExtractedInfoChange('github', e.target.value)}
-          />
+          value={resumeData?.github || ''}          />
         <label>Twitter:</label>
         <input type="url" />
         <label>Other Profiles:</label>

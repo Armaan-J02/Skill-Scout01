@@ -196,8 +196,9 @@ def parser(filepath):
     "certification": content.get("certifications", ""),
     "interests": content.get("interests", "")
     }
-
     collection.insert_one(output_data)
+    
+    
     '''output_filepath, output_filename = os.path.split(filepath)  # Using the input file's directory and filename
     output_filename_without_extension, _ = os.path.splitext(output_filename)  # Removing the extension
     parsed_filename = generate_parsed_filename(output_filename)

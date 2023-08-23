@@ -5,9 +5,10 @@ const cors = require('cors');
 const execa = require('execa');
 const fs = require('fs'); // Import the fs module
 const app = express();
+const authRoutes = require('../src/authRoutes');
 
 
-app.use(cors());
+app.use (authRoutes.shap);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -36,6 +37,9 @@ app.post('/upload', upload.single('resume'), async (req, res) => {
     res.status(500).json({ error: 'An error occurred while parsing the resume.' });
   }
 });
+
+
+
 
 //  app.get('/extracted-info/:filename', (req, res) => {
 //   const parsedFileName = req.params.filename.replace(/\.[^.]+$/, ''); // Remove file extension
