@@ -8,7 +8,7 @@ const app = express();
 const authRoutes = require('../src/authRoutes');
 
 
-app.use (authRoutes.shap);
+//app.use (authRoutes.sapp);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
