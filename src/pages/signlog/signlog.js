@@ -14,27 +14,18 @@ function SignLog() {
         e.preventDefault();
     
         try {
-          const response = await fetch('/api/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password }),
-          });
-    
-          const data = await response.json();
-    
+          const response = await axios.post('http://localhost:5000/api/login', { email, password });
+          const data = response.data;
+          console.log(data);
           if (response.status === 200) {
-            // Login successful, navigate to the next page
+            localStorage.setItem('token', data.token);
             navigate('/resumeup');
           } else {
-            // Login failed, handle error
-            console.error('Login failed:', data.error);
-            // You can show an error message to the user or perform other actions
+            console.error('Login failed:', data.error)
           }
         } catch (error) {
           console.error('An error occurred:', error);
-          // Handle error, e.g., show a generic error message
+               
         }
       };
     return (

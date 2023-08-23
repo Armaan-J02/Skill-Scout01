@@ -16,7 +16,7 @@ function JoinNow() {
     e.preventDefault();
   
     try {
-      const response = await fetch('http://localhost:3001/api/register', {
+      const response = await fetch('http://localhost:5000/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ function JoinNow() {
       });
   
       if (response.ok) {
-        navigate('/resumeup');
+        navigate('/signlog');
       } else {
         console.error('Request failed with status:', response.status);
       }
