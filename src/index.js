@@ -11,6 +11,8 @@ import Feed from './pages/feed/feed';
 import Services from './pages/services/services';
 import Contact from './pages/contact/contact';
 import About from './pages/about/about';
+import ResumeUp from './pages/resumeup/resumeup';
+import SignLog from './pages/signlog/signlog';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -24,6 +26,8 @@ ReactDOM.render(
         <Route path="/services" element={<Services/>} />
         <Route path="/about" element={<About/>} />
         <Route path="/contact" element={<Contact/>} />
+        <Route path="/resumeup" element={<ResumeUp/>} />
+        <Route path="/signlog" element={<SignLog/>} />
       </Routes>
     </Router>
   </React.StrictMode>,

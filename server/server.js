@@ -4,10 +4,38 @@ const path = require('path');
 const cors = require('cors');
 const execa = require('execa');
 const fs = require('fs'); // Import the fs module
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const app = express();
+const accountSchema = require('../src/schemas/account');
+const Resume =  require('../src/schemas/resume');
+const atlasUri = require('./../atlas_uri')
+const { createReadStream } = require('fs');
 
-
+app.use(express.json());
 app.use(cors());
+app.use(bodyParser.json());
+app.use(express.json())
+
+// const jwt_sec = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567891234567890!@#$%^&*(),.<>?/;:[]{}|`~"
+// const jwtExpiresIn = '1h';
+
+mongoose.connect(atlasUri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  dbName: 'Applicant', // Set the database name to "Applicant"
+});
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error: '));
+db.once('open', function () {
+  console.log('Connected successfully');
+});
+
+const Account = mongoose.model('accounts', accountSchema);
+
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -30,22 +58,6 @@ app.post('/upload', upload.single('resume'), async (req, res) => {
 
     console.log('Python script executed successfully!');
 
-    const jsonFilePath = path.join(__dirname, '../storage/output', `${parsedFileName}.json`);
-    const jsonData = fs.readFileSync(jsonFilePath, 'utf-8');
-    const resumeData = JSON.parse(jsonData);
-
-    const extractedInfo = {
-      email: resumeData.email,
-      phone: resumeData.phone,
-      linkedin: resumeData.linkedin,
-      github: resumeData.github,
-    };
-    console.log('hello')
-    console.log(extractedInfo)
-
-    res.write('Resume parsed successfully!'); // Send notification
-    res.end(); // End the response
-
     console.log('Resume parsed successfully!');
   } catch (error) {
     console.error('Error executing Python script:', error);
@@ -53,30 +65,45 @@ app.post('/upload', upload.single('resume'), async (req, res) => {
   }
 });
 
-app.get('/extracted-info/:filename', (req, res) => {
-  const parsedFileName = req.params.filename.replace(/\.[^.]+$/, ''); // Remove file extension
-  const jsonFilePath = path.join(__dirname, '../storage/output', `${parsedFileName}.json`);
+app.post('/api/register', async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const newAccount = await Account.create({ email, password});
+    const createdAccountId = newAccount._id;
+    console.log(createdAccountId)
 
-  if (fs.existsSync(jsonFilePath)) {
-    const jsonData = fs.readFileSync(jsonFilePath, 'utf-8');
-    const resumeData = JSON.parse(jsonData);
-    console.log(jsonFilePath)
-    const extractedInfo = {
-      email: resumeData.email,
-      phone: resumeData.phone,
-      linkedin: resumeData.linkedin,
-      github: resumeData.github,
-    };
-
-    res.json(extractedInfo);
-  } else {
-    res.status(404).json({ error: 'Extracted JSON file not found.' });
+    res.status(201).json({
+      status: 'success',
+      message: 'Account created successfully',
+      accountId: createdAccountId,
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
   }
 });
 
-app.get('/', (req, res) => {
-  res.send('Server is running. Use POST request to /upload for file upload.');
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const account = await Account.findOne({ email });
+
+    if (!account || account.password !== password) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    //const token = jwt.sign({ accountId: account._id }, jwtsec, { expiresIn: jwtExpiresIn });
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Login successful',
+      //token: token,
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
 });
+
 
 const port = 5000;
 app.listen(port, () => {
