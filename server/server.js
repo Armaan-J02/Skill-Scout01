@@ -51,14 +51,14 @@ const upload = multer({ storage });
 app.post('/upload', upload.single('resume'), async (req, res) => {
   const uploadedFileName = req.file.originalname;
   const parsedFileName = uploadedFileName.replace(/\.[^.]+$/, ''); // Remove file extension
-
+  console.log("Resume", uploadedFileName, "uploaded successfully!")
   try {
-    const pythonScriptPath = 'src/models/parser-resume/ractor.py';
-    await execa('python', [pythonScriptPath, uploadedFileName]);
+    //const pythonScriptPath = 'src/models/parser-resume/ractor.py';
+    //await execa('python', [pythonScriptPath, uploadedFileName]);
 
-    console.log('Python script executed successfully!');
+    //console.log('Python script executed successfully!');
 
-    console.log('Resume parsed successfully!');
+    //console.log('Resume parsed successfully!');
   } catch (error) {
     console.error('Error executing Python script:', error);
     res.status(500).json({ error: 'An error occurred while parsing the resume.' });
